@@ -15,13 +15,22 @@ function read(): string[] {
 }
 
 function write(ids: string[]) {
-  window.localStorage.setItem(KEY, JSON.stringify(ids));
+  // Storage can be unavailable (blocked cookies/private mode) — still update
+  // subscribers so the UI reflects this session's choice.
+  try {
+    window.localStorage.setItem(KEY, JSON.stringify(ids));
+  } catch {}
   listeners.forEach((l) => l());
 }
 
 function subscribe(cb: () => void) {
   listeners.add(cb);
-  return () => listeners.delete(cb);
+  // 'storage' fires in other tabs so progress stays in sync across them
+  window.addEventListener("storage", cb);
+  return () => {
+    listeners.delete(cb);
+    window.removeEventListener("storage", cb);
+  };
 }
 
 export function useProgress() {
