@@ -32,21 +32,28 @@ export default async function WalkthroughPage({ params }: Props) {
   const component = entry.source.replace(".tsx", "");
 
   return (
-    <CourseArticle title={entry.title} footer={
+    <CourseArticle
+      title={entry.title}
+      description={entry.description}
+      eyebrow={`Walkthrough ${index + 1} of ${walkthroughs.length} · ${entry.tags.join(" · ")}`}
+      footer={
       <nav aria-label="Walkthrough navigation">
-        <Link href="/gallery/">← Component gallery</Link>
-        {next && <Link className="text-right" href={`/course/walkthroughs/${next.slug}/`}>{next.title} →</Link>}
+        <Link href="/gallery/"><span>← Back</span><strong>Component gallery</strong></Link>
+        {next ? (
+          <Link className="text-right" href={`/course/walkthroughs/${next.slug}/`}><span>Next →</span><strong>{next.title}</strong></Link>
+        ) : (
+          <Link className="text-right" href="/#syllabus"><span>Course overview →</span><strong>Syllabus</strong></Link>
+        )}
       </nav>
     }>
-      <p>{entry.description}</p>
       <ProjectPreview slug={entry.slug} compare />
       <p className="project-demo-instructions">{entry.tryIt}</p>
 
       <h2 id="setup">Run the project with motion disabled</h2>
       <p>Download the component and its stylesheet into <code>src/</code> in a React + TypeScript project. Use the entry point below. {entry.slug !== "notification-stack" && <>Install <code>motion</code> with <code>npm install motion</code>.</>} With a fresh Vite template, remove its default <code>index.css</code> import from <code>src/main.tsx</code>.</p>
       <div className="project-downloads">
-        <a className="button-secondary" href={`${folder}/${entry.source}`} download>{entry.source} ↓</a>
-        <a className="button-secondary" href={`${folder}/${entry.stylesheet}`} download>{entry.stylesheet} ↓</a>
+        <a className="button-secondary" href={`${folder}/${entry.source}`} download><span aria-hidden="true">↓</span> {entry.source}</a>
+        <a className="button-secondary" href={`${folder}/${entry.stylesheet}`} download><span aria-hidden="true">↓</span> {entry.stylesheet}</a>
       </div>
       <CodeBlock title="src/App.tsx">{`import ${component} from "./${component}";
 

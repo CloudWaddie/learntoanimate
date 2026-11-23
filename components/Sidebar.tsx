@@ -46,7 +46,7 @@ export function Sidebar() {
                       className="sidebar-link"
                     >
                       {lesson.title}
-                      {done && <span className="ml-auto shrink-0 text-mint" aria-hidden="true">✓</span>}
+                      {done && <span className="sidebar-done" aria-hidden="true">✓</span>}
                       {done && <span className="sr-only"> (complete)</span>}
                     </Link>
                   </li>
@@ -77,8 +77,8 @@ export function Sidebar() {
           <span id="progress-label">Course progress</span>
           <span>{count} / {totalLessons}</span>
         </div>
-        <div className="mt-2 h-1 overflow-hidden rounded-full bg-surface-2" role="progressbar" aria-labelledby="progress-label" aria-valuenow={count} aria-valuemax={totalLessons}>
-          <div className="course-progress-value h-full bg-accent transition-[width] duration-300" style={{ width: `${count / totalLessons * 100}%` }} />
+        <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-surface-2" role="progressbar" aria-labelledby="progress-label" aria-valuenow={count} aria-valuemax={totalLessons}>
+          <div className="course-progress-value h-full rounded-full bg-mint transition-[width] duration-300" style={{ width: `${count / totalLessons * 100}%` }} />
         </div>
       </div>
     </aside>

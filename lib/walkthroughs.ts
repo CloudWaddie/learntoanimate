@@ -6,6 +6,7 @@ export const walkthroughs = [
     tryIt: "Start the ten-second timer, pause it halfway, then resume and let it finish. Try resetting just after you start it.",
     source: "FocusTimer.tsx",
     stylesheet: "focus-timer.css",
+    tags: ["Motion for React", "Layout animation", "Springs"],
   },
   {
     slug: "notification-stack",
@@ -14,6 +15,7 @@ export const walkthroughs = [
     tryIt: "Add two notifications, expand the stack, and dismiss the middle card. Collapse it while the others are moving.",
     source: "NotificationStack.tsx",
     stylesheet: "notification-stack.css",
+    tags: ["CSS only", "Transitions", "@starting-style"],
   },
   {
     slug: "record-library",
@@ -22,6 +24,7 @@ export const walkthroughs = [
     tryIt: "Open a record and follow the cover into the detail view. Press Escape while it’s still moving, then open a different record.",
     source: "RecordLibrary.tsx",
     stylesheet: "record-library.css",
+    tags: ["Motion for React", "Shared layout", "Exit animation"],
   },
 ] as const;
 

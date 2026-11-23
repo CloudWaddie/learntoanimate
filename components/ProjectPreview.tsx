@@ -6,7 +6,7 @@ import RecordLibrary from "@/public/projects/record-library/RecordLibrary";
 import type { WalkthroughSlug } from "@/lib/walkthroughs";
 import { useState } from "react";
 
-const previews = {
+export const previews = {
   "focus-timer": FocusTimer,
   "notification-stack": NotificationStack,
   "record-library": RecordLibrary,

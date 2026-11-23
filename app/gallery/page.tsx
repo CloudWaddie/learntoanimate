@@ -15,21 +15,33 @@ export default function Gallery() {
     <div className="landing">
       <LandingNav gallery />
       <main id="main" className="landing-column project-gallery">
-        <header>
+        <header className="gallery-header">
           <h1>Component gallery</h1>
           <p>Try the finished interactions, then follow a walkthrough to build the animation yourself.</p>
         </header>
         {walkthroughs.map((project) => (
-          <section key={project.slug} aria-labelledby={project.slug}>
-            <h2 id={project.slug}>{project.title}</h2>
-            <p>{project.description}</p>
+          <section className="gallery-item" key={project.slug} aria-labelledby={project.slug}>
             <ProjectPreview slug={project.slug} />
-            <Link className="landing-text-link" href={`/course/walkthroughs/${project.slug}/`}>
-              Build the {project.title.toLowerCase()} <span aria-hidden="true">→</span>
-            </Link>
+            <div className="gallery-item-heading">
+              <h2 id={project.slug}>{project.title}</h2>
+              <Link className="button-secondary" href={"/course/walkthroughs/" + project.slug + "/"}>
+                Build it<span className="sr-only">: {project.title}</span> <span aria-hidden="true">→</span>
+              </Link>
+            </div>
+            <p>{project.description}</p>
+            <ul className="project-tags" aria-label="Techniques">
+              {project.tags.map((tag) => <li key={tag}>{tag}</li>)}
+            </ul>
           </section>
         ))}
-        <footer className="landing-footer"><Wordmark /><Link href="/#syllabus">Syllabus</Link></footer>
+        <footer className="landing-footer">
+          <Wordmark />
+          <nav aria-label="Footer">
+            <Link href="/">Home</Link>
+            <Link href="/#syllabus">Syllabus</Link>
+            <Link href="/course/foundations/why-motion/">First lesson</Link>
+          </nav>
+        </footer>
       </main>
     </div>
   );

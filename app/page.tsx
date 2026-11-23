@@ -2,9 +2,11 @@ import Link from "next/link";
 import { MotionStamps } from "@/components/MotionStamps";
 import { LandingNav } from "@/components/LandingNav";
 import { LandingComparison } from "@/components/LandingComparison";
+import { LandingShowcase } from "@/components/LandingShowcase";
 import { TimingFigure } from "@/components/TimingFigure";
 import { Wordmark } from "@/components/Wordmark";
 import { modules, totalLessons } from "@/lib/content";
+import { walkthroughs } from "@/lib/walkthroughs";
 
 const firstLesson = "/course/foundations/why-motion/";
 
@@ -17,18 +19,23 @@ export default function Landing() {
         <section className="landing-hero" aria-labelledby="landing-title">
           <MotionStamps />
           <h1 id="landing-title">How do you make motion<br className="hidden sm:inline" /> feel right?</h1>
-          <p>Learn to animate web interfaces through interactive examples, short exercises, and a project you can build.</p>
-          <span className="hero-credit"><span aria-hidden="true" /> Learn to Animate</span>
+          <p>Learn to animate web interfaces through interactive examples, short exercises, and components you build yourself.</p>
+          <div className="hero-actions">
+            <Link className="button-gold button-large" href={firstLesson}>Start learning</Link>
+            <Link className="button-secondary button-large" href="/gallery/">Browse the gallery</Link>
+          </div>
+          <ul className="hero-meta">
+            <li>{totalLessons} lessons</li>
+            <li>{walkthroughs.length} component walkthroughs</li>
+            <li>CSS and Motion for React</li>
+          </ul>
         </section>
 
         <div className="landing-column">
-          <section className="landing-section" aria-labelledby="start-title">
-            <h2 id="start-title">Start the course</h2>
-            <p>Work through {totalLessons} lessons at your own pace. Start with CSS and bring in React when you’re ready to animate state, exits, and layout.</p>
-            <div className="course-invite">
-              <span>Begin with <strong>What motion is for</strong></span>
-              <Link className="button-gold" href={firstLesson}>Open first lesson</Link>
-            </div>
+          <section className="landing-section" aria-labelledby="project-title">
+            <h2 id="project-title">Build components worth shipping</h2>
+            <p>Each walkthrough starts from a working component with motion turned off. Try the finished versions here, then add the animation yourself.</p>
+            <LandingShowcase />
           </section>
 
           <section className="landing-section" aria-labelledby="comparison-title">
@@ -47,41 +54,47 @@ export default function Landing() {
           <section id="syllabus" className="landing-section syllabus" aria-labelledby="syllabus-title">
             <h2 id="syllabus-title">What you’ll learn</h2>
             <p>Start with timing and easing, then put CSS and Motion for React to work in the component walkthroughs.</p>
-            {modules.map((module) => (
-              <details className="syllabus-module" key={module.slug} open={module.number === 1}>
-                <summary>
-                  <span className="syllabus-index">Module {String(module.number).padStart(2, "0")}</span>
-                  <strong>{module.title}</strong>
-                  <span className="syllabus-chevron" aria-hidden="true" />
-                </summary>
-                <div>
-                  <p>{module.tagline}</p>
-                  <ul>
-                    {module.lessons.map((lesson) => (
-                      <li key={lesson.slug}>
-                        <Link href={`/course/${module.slug}/${lesson.slug}/`}>
-                          {lesson.title}<span aria-hidden="true">→</span>
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </details>
-            ))}
+            <div className="syllabus-list">
+              {modules.map((module) => (
+                <details className="syllabus-module" key={module.slug} open={module.number === 1}>
+                  <summary>
+                    <span className="syllabus-index" aria-hidden="true">{String(module.number).padStart(2, "0")}</span>
+                    <strong>{module.title}</strong>
+                    <span className="syllabus-count">{module.lessons.length} lessons</span>
+                    <span className="syllabus-chevron" aria-hidden="true" />
+                  </summary>
+                  <div>
+                    <p>{module.tagline}</p>
+                    <ul>
+                      {module.lessons.map((lesson) => (
+                        <li key={lesson.slug}>
+                          <Link href={"/course/" + module.slug + "/" + lesson.slug + "/"}>
+                            {lesson.title}<span>{lesson.minutes} min</span>
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </details>
+              ))}
+            </div>
           </section>
 
-          <section className="landing-section landing-project" aria-labelledby="project-title">
-            <h2 id="project-title">Walkthroughs</h2>
-            <p>Build a timer that changes shape, a stack of notifications, and a record library with a continuous card-to-detail transition.</p>
-            <div className="landing-project-links">
-              <Link className="button-gold" href="/gallery/">Try the components</Link>
-              <Link className="landing-text-link" href="/course/walkthroughs/focus-timer/">Start the first walkthrough <span aria-hidden="true">→</span></Link>
+          <section className="landing-section course-invite" aria-labelledby="start-title">
+            <div>
+              <h2 id="start-title">Start with the first lesson</h2>
+              <p>What motion is for takes about six minutes. Your progress is saved in this browser.</p>
             </div>
+            <Link className="button-gold button-large" href={firstLesson}>Start learning</Link>
           </section>
 
           <footer className="landing-footer">
             <Wordmark />
-            <a href="#syllabus">Syllabus</a>
+            <nav aria-label="Footer">
+              <Link href="/gallery/">Gallery</Link>
+              <a href="#syllabus">Syllabus</a>
+              <Link href={firstLesson}>First lesson</Link>
+            </nav>
           </footer>
         </div>
       </main>

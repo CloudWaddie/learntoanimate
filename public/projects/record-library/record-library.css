@@ -1,12 +1,14 @@
 .record-demo {
   position: relative;
   overflow: hidden;
+  display: grid;
+  align-content: center;
   min-height: 16.2rem;
-  background: #eeeee8;
+  background: #f4f4f2;
   color: #232723;
-  font-family: system-ui, sans-serif;
+  font-family: var(--font-sans, system-ui, sans-serif);
 }
-.record-shelf { padding: 1.15rem 1rem; }
+.record-shelf { width: 100%; max-width: 34rem; margin-inline: auto; padding: 1.15rem 1rem; }
 .record-shelf-heading { display: flex; align-items: baseline; justify-content: space-between; gap: .75rem; margin-bottom: .8rem; }
 .record-shelf-heading strong { font-size: .92rem; }
 .record-shelf-heading span, .record-genre { color: #525c54; font-size: .68rem; }
@@ -26,7 +28,7 @@
 .record-shelf button:hover { background: #fff; border-color: #a6b0a1; }
 .record-shelf button strong { display: block; margin: .35rem 0 .1rem; font-size: .75rem; }
 .record-genre { display: block; }
-.record-cover { display: block; position: relative; aspect-ratio: 1; width: 100%; max-width: 10rem; box-shadow: inset 0 0 0 1px #17171724; }
+.record-cover { display: block; position: relative; aspect-ratio: 1; width: 100%; box-shadow: inset 0 0 0 1px #17171724; }
 .record-cover[data-record="breakwater"] {
   background: repeating-radial-gradient(ellipse at 14% 108%, #e7e6c900 0 5%, #cddec3bb 6% 6.5%, #e7e6c900 8% 11%),
               linear-gradient(160deg, #e4e5bb 3%, #a5bf94 40%, #265a4d 74%, #173e3d);
@@ -49,8 +51,9 @@
   grid-template-columns: minmax(3.5rem, .65fr) minmax(0, 1fr);
   gap: .7rem;
   padding: clamp(.6rem, 4vw, 1.6rem);
+  padding-inline: max(clamp(.6rem, 4vw, 1.6rem), calc((100% - 34rem) / 2));
 }
-.record-detail-background { position: absolute; inset: 0; background: #eeeee8; }
+.record-detail-background { position: absolute; inset: 0; background: #f4f4f2; }
 .record-detail[inert] { pointer-events: none; }
 .record-detail .record-cover { width: 100%; max-width: none; }
 .record-detail-content { position: relative; min-width: 0; align-self: center; }
