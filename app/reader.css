@@ -74,6 +74,22 @@
 .lesson-footer nav a:hover strong { text-decoration: underline; text-underline-offset: 4px; }
 .lesson-outline { display: none; }
 .prose-course h2 { scroll-margin-top: 5rem; }
+.prose-course .project-demo-instructions { margin: .65rem 0 1.35rem; color: var(--color-muted); font-size: .79rem; }
+.project-downloads { display: flex; flex-wrap: wrap; gap: .45rem; }
+.css-workshop { margin-block: 1rem; overflow: hidden; border: 1px solid var(--color-line); border-radius: .75rem; background: var(--color-surface); }
+.css-workshop-bar { display: flex; align-items: center; flex-wrap: wrap; gap: .35rem; padding: .5rem; border-bottom: 1px solid var(--color-line); }
+.css-workshop-bar label { margin: 0 auto 0 .25rem; color: var(--color-muted); font: .72rem var(--font-mono); }
+.css-workshop-bar button { padding: .32rem .48rem; border: 1px solid var(--color-line); border-radius: .35rem; font-size: .72rem; }
+.css-workshop-bar button:last-child { background: var(--color-ink); color: white; }
+.css-workshop-bar button:disabled { opacity: .52; cursor: default; }
+.css-workshop-body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.css-workshop textarea, .css-workshop iframe { display: block; width: 100%; min-height: 13.5rem; }
+.css-workshop textarea { resize: vertical; padding: .85rem; font: .76rem/1.55 var(--font-mono); }
+.css-workshop iframe { border: 0; border-left: 1px solid var(--color-line); background: var(--color-stage); }
+@media (max-width: 34rem) {
+  .css-workshop-body { grid-template-columns: 1fr; }
+  .css-workshop iframe { border-left: 0; border-top: 1px solid var(--color-line); }
+}
 
 @media (min-width: 56rem) {
   .mobile-lesson-nav { display: none; }

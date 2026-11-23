@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { modules } from "@/lib/content";
+import { walkthroughs } from "@/lib/walkthroughs";
 
 export function MobileNav() {
   const router = useRouter();
@@ -9,7 +10,7 @@ export function MobileNav() {
 
   return (
     <nav aria-label="Course navigation" className="mobile-lesson-nav">
-      <label htmlFor="lesson-select">Lessons</label>
+      <label htmlFor="lesson-select">Course</label>
       <select
         id="lesson-select"
         value={pathname}
@@ -25,6 +26,11 @@ export function MobileNav() {
             ))}
           </optgroup>
         ))}
+        <optgroup label="Walkthroughs">
+          {walkthroughs.map((project) => (
+            <option key={project.slug} value={`/course/walkthroughs/${project.slug}`}>{project.title}</option>
+          ))}
+        </optgroup>
       </select>
     </nav>
   );

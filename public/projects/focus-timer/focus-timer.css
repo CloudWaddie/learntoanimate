@@ -1,0 +1,64 @@
+.focus-demo {
+  --focus-paper: #f6f5f3;
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  padding: 1.85rem 1rem 1.2rem;
+  background: var(--focus-paper);
+  color: #151617;
+  font-family: system-ui, sans-serif;
+}
+.focus-device {
+  display: grid;
+  position: relative;
+  align-content: start;
+  justify-items: center;
+  width: min(100%, 21rem);
+  min-height: 10.7rem;
+  overflow: hidden;
+  padding: 1.05rem .75rem;
+  border: 1px solid #456061;
+  border-radius: 1.8rem;
+  background:
+    radial-gradient(117% 170% at 101% 155%, #b4d2a1 0%, #6b977e 34%, transparent 35%),
+    radial-gradient(155% 182% at 92% 137%, #8cb9ac 0%, #568384 44%, #264b52 45%, #101d29 73%);
+  box-shadow: inset 0 1px #dff8ed2b, 0 10px 22px -12px #182e40a8;
+}
+.focus-device-label {
+  position: absolute;
+  bottom: 1.1rem;
+  left: 1.1rem;
+  color: #e7f6ed;
+  font-size: .75rem;
+  font-weight: 550;
+}
+.focus-capsule {
+  position: relative;
+  display: grid;
+  align-items: center;
+  min-height: 2.2rem;
+  padding: .5rem .9rem;
+  overflow: hidden;
+  background: #080a0a;
+  color: #edf2f0;
+  box-shadow: 0 0 0 1px #b9f1eb20, 0 5px 14px #0004;
+}
+.focus-readout { display: flex; align-items: center; gap: .5rem; font-size: .75rem; font-weight: 650; white-space: nowrap; }
+.focus-status-icon { width: .48rem; height: .48rem; border-radius: 50%; background: #858d8d; }
+.focus-capsule[data-phase="running"] .focus-status-icon { background: #b9e4a4; box-shadow: 0 0 8px #a7ed9866; }
+.focus-capsule[data-phase="ringing"] .focus-status-icon { background: #ffd17c; box-shadow: 0 0 8px #ffd17c66; }
+.focus-time { padding-left: 1.45rem; color: #c0efa9; font-variant-numeric: tabular-nums; }
+.focus-controls { display: flex; gap: .5rem; }
+.focus-controls button {
+  min-height: 2.3rem;
+  padding: .35rem .75rem;
+  border: 1px solid #dadbd6;
+  border-radius: .5rem;
+  background: #fff;
+  color: #252822;
+  font: 600 .75rem system-ui, sans-serif;
+  cursor: pointer;
+}
+.focus-controls button:disabled { color: #686e66; cursor: default; }
+.focus-controls .focus-primary { min-width: 7.5rem; border-color: #232b27; background: #252e29; color: #f5fff7; }
+.focus-announcement { position: absolute; width: 1px; height: 1px; clip-path: inset(50%); overflow: hidden; white-space: nowrap; }

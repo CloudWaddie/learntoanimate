@@ -9,14 +9,14 @@
   pointer-events: none;
 }
 .landing-header nav { display: flex; align-items: center; gap: 1.1rem; pointer-events: auto; }
-.landing-header nav > a:first-child {
+.landing-header nav > a:not(.button-gold) {
   color: var(--color-muted);
   font-size: .75rem;
   padding: .4rem .2rem;
   background: var(--color-bg);
   border-radius: .3rem;
 }
-.landing-header nav > a:first-child:hover { color: var(--color-ink); }
+.landing-header nav > a:not(.button-gold):hover { color: var(--color-ink); }
 .button-gold {
   display: inline-flex;
   align-items: center;
@@ -215,3 +215,13 @@
   .stamp:is(:hover, :focus-visible, :active) { transform: rotate(var(--turn, 0deg)); }
   .comparison-panel { transform: none; }
 }
+
+.project-gallery { padding-top: clamp(6.5rem, 14vw, 9.5rem); }
+.project-gallery h1, .project-gallery h2 { margin-bottom: .55rem; font-size: .98rem; font-weight: 620; }
+.project-gallery p { margin-bottom: 1rem; color: var(--color-body); font-size: .89rem; line-height: 1.65; }
+.project-gallery header, .project-gallery section { margin-bottom: clamp(3.8rem, 9vw, 6rem); }
+.project-preview { overflow: hidden; border: 1px solid var(--color-line); border-radius: .75rem; }
+.project-motion-toggle { display: flex; align-items: center; gap: .45rem; padding: .55rem .8rem; border-bottom: 1px solid var(--color-line); font-size: .78rem; color: var(--color-muted); }
+.project-motion-toggle input { accent-color: var(--color-accent); }
+.landing-project-links { display: flex; gap: .85rem; flex-wrap: wrap; align-items: center; }
+.landing-project-links .landing-text-link { margin-top: 0; }

@@ -5,19 +5,15 @@ import { usePathname } from "next/navigation";
 import { useState } from "react";
 import { allLessons, modules, totalLessons } from "@/lib/content";
 import { useProgress } from "@/lib/progress";
+import { walkthroughs } from "@/lib/walkthroughs";
 
-const walkthroughLinks = [
-  ["css", "transitions", "Build a responsive save button"],
-  ["foundations", "performance", "Profile a progress bar"],
-  ["motion", "layout", "Animate a sortable list"],
-  ["craft", "capstone", "Final project · Issue desk"],
-] as const;
+type Mode = "lessons" | "walkthroughs";
 
 export function Sidebar() {
   const pathname = usePathname().replace(/\/$/, "");
-  const [tab, setTab] = useState<"lessons" | "walkthroughs">(
-    pathname.endsWith("/capstone") ? "walkthroughs" : "lessons",
-  );
+  const [choice, setChoice] = useState<{ path: string; mode: Mode }>();
+  const tab = choice?.path === pathname ? choice.mode
+    : pathname.startsWith("/course/walkthroughs/") ? "walkthroughs" : "lessons";
   const { mounted, completed } = useProgress();
   const count = mounted
     ? allLessons.filter(({ module, lesson }) => completed.has(`/course/${module.slug}/${lesson.slug}`)).length
@@ -26,8 +22,8 @@ export function Sidebar() {
   return (
     <aside className="lesson-sidebar">
       <div className="sidebar-switch" role="group" aria-label="Course navigation mode">
-        <button type="button" aria-pressed={tab === "lessons"} onClick={() => setTab("lessons")}>Fundamentals</button>
-        <button type="button" aria-pressed={tab === "walkthroughs"} onClick={() => setTab("walkthroughs")}>Walkthroughs</button>
+        <button type="button" aria-pressed={tab === "lessons"} onClick={() => setChoice({ path: pathname, mode: "lessons" })}>Fundamentals</button>
+        <button type="button" aria-pressed={tab === "walkthroughs"} onClick={() => setChoice({ path: pathname, mode: "walkthroughs" })}>Walkthroughs</button>
       </div>
 
       <nav aria-label={tab === "lessons" ? "Course lessons" : "Course walkthroughs"}>
@@ -62,15 +58,12 @@ export function Sidebar() {
           <div className="sidebar-module">
             <div className="sidebar-module-heading"><strong>Project walkthroughs</strong></div>
             <ul>
-              {walkthroughLinks.map(([moduleSlug, lessonSlug, title]) => {
-                const href = `/course/${moduleSlug}/${lessonSlug}`;
-                const done = mounted && completed.has(href);
+              {walkthroughs.map(({ slug, title }) => {
+                const href = `/course/walkthroughs/${slug}`;
                 return (
                   <li key={href}>
                     <Link className="sidebar-link" href={href} aria-current={pathname === href ? "page" : undefined}>
                       {title}
-                      {done && <span className="ml-auto shrink-0 text-mint" aria-hidden="true">✓</span>}
-                      {done && <span className="sr-only"> (complete)</span>}
                     </Link>
                   </li>
                 );

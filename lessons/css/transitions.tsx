@@ -1,4 +1,5 @@
-import { CodeBlock, Demo, Exercise } from "@/components/lesson";
+import { CodeBlock, Demo } from "@/components/lesson";
+import { CssWorkshop } from "@/components/CssWorkshop";
 import { PressPlayground } from "@/components/playgrounds/PressPlayground";
 
 export default function Lesson() {
@@ -46,9 +47,10 @@ export default function Lesson() {
 </script>
 </html>`}</CodeBlock>
 
-      <Exercise solution={<p>If you put <code>transition</code> on <code>:active</code>, the declaration goes away when you release the button, so the return snaps. Move it back to the base rule. The color change and save count should still work with reduced motion enabled.</p>}>
-        Run the example and move the transition declaration into <code>:active</code>. Press and release to find which direction snaps. Restore the base rule, then try three presses in quick succession and verify the count advances three times.
-      </Exercise>
+      <h2>Practice in the browser</h2>
+      <p>In the editor, add a 150ms transition for <code>transform</code> and <code>background-color</code>. Run the CSS, hold the button, and release. Now move your declaration into <code>:active</code> and run it again. Which direction snaps?</p>
+      <CssWorkshop exercise="press" />
+      <p>On release, the <code>:active</code> rule goes away before the return can animate. Put the transition back on the base rule. Try pressing and releasing quickly, and check that Tab still gives the button a clear focus outline.</p>
     </>
   );
 }

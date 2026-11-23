@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MotionStamps } from "@/components/MotionStamps";
+import { LandingNav } from "@/components/LandingNav";
 import { LandingComparison } from "@/components/LandingComparison";
 import { TimingFigure } from "@/components/TimingFigure";
 import { Wordmark } from "@/components/Wordmark";
@@ -10,12 +11,7 @@ const firstLesson = "/course/foundations/why-motion/";
 export default function Landing() {
   return (
     <div className="landing">
-      <header className="landing-header">
-        <nav aria-label="Main navigation">
-          <a href="#syllabus">Syllabus</a>
-          <Link className="button-gold" href={firstLesson}>Start learning</Link>
-        </nav>
-      </header>
+      <LandingNav />
 
       <main id="main">
         <section className="landing-hero" aria-labelledby="landing-title">
@@ -50,7 +46,7 @@ export default function Landing() {
 
           <section id="syllabus" className="landing-section syllabus" aria-labelledby="syllabus-title">
             <h2 id="syllabus-title">What you’ll learn</h2>
-            <p>Start with timing and easing, work through CSS and Motion for React, and finish by building an issue tracker.</p>
+            <p>Start with timing and easing, then put CSS and Motion for React to work in the component walkthroughs.</p>
             {modules.map((module) => (
               <details className="syllabus-module" key={module.slug} open={module.number === 1}>
                 <summary>
@@ -75,9 +71,12 @@ export default function Landing() {
           </section>
 
           <section className="landing-section landing-project" aria-labelledby="project-title">
-            <h2 id="project-title">Build an animated issue tracker</h2>
-            <p>Use the Issue desk starter to animate a sortable list and a details panel. Then test keyboard focus, rapid input, and reduced motion.</p>
-            <Link className="button-gold" href="/course/craft/capstone/">Explore the project</Link>
+            <h2 id="project-title">Walkthroughs</h2>
+            <p>Build a timer that changes shape, a stack of notifications, and a record library with a continuous card-to-detail transition.</p>
+            <div className="landing-project-links">
+              <Link className="button-gold" href="/gallery/">Try the components</Link>
+              <Link className="landing-text-link" href="/course/walkthroughs/focus-timer/">Start the first walkthrough <span aria-hidden="true">→</span></Link>
+            </div>
           </section>
 
           <footer className="landing-footer">

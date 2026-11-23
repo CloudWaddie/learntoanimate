@@ -12,7 +12,7 @@ export default function CourseLayout({
         <Wordmark compact />
         <nav aria-label="Course shortcuts">
           <Link href="/#syllabus">Syllabus</Link>
-          <Link href="/course/craft/capstone/">Final project</Link>
+          <Link href="/gallery/">Gallery</Link>
         </nav>
       </header>
       <MobileNav />

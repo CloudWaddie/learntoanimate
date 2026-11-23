@@ -140,7 +140,7 @@ export const modules: Module[] = [
     slug: "craft",
     number: 4,
     title: "Interaction design",
-    tagline: "Test rapid input and reduced motion, then build the final project.",
+    tagline: "Test rapid input and reduced motion, then apply both to an issue tracker.",
     lessons: [
       {
         slug: "interruptibility",
@@ -172,7 +172,7 @@ export const modules: Module[] = [
       },
       {
         slug: "capstone",
-        title: "Final project: Issue desk",
+          title: "Practice: Issue desk",
         description:
           "Build an animated issue tracker from a working React starter.",
         minutes: 45,
