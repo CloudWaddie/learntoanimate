@@ -18,14 +18,21 @@ const PRESETS: { name: string; pts: [number, number, number, number] }[] = [
 const W = 260;
 const H = 260;
 const PAD = 20;
+// Y domain is taller than the unit box so overshoot/anticipation handles
+// (y below 0 or above 1) stay visible and draggable inside the SVG.
+const Y_MIN = -0.6;
+const Y_MAX = 1.7;
 
 function toSvg(x: number, y: number) {
-  return { x: PAD + x * (W - 2 * PAD), y: H - PAD - y * (H - 2 * PAD) };
+  return {
+    x: PAD + x * (W - 2 * PAD),
+    y: PAD + ((Y_MAX - y) / (Y_MAX - Y_MIN)) * (H - 2 * PAD),
+  };
 }
 function fromSvg(px: number, py: number) {
   return {
     x: (px - PAD) / (W - 2 * PAD),
-    y: (H - PAD - py) / (H - 2 * PAD),
+    y: Y_MAX - ((py - PAD) / (H - 2 * PAD)) * (Y_MAX - Y_MIN),
   };
 }
 
@@ -64,14 +71,14 @@ export function EasingPlayground({ height = 300 }: { height?: number }) {
     if (dragRef.current === null || !svgRef.current) return;
     const rect = svgRef.current.getBoundingClientRect();
     const p = fromSvg(
-      e.clientX - rect.left,
-      e.clientY - rect.top,
+      (e.clientX - rect.left) * (W / rect.width),
+      (e.clientY - rect.top) * (H / rect.height),
     );
     const i = dragRef.current;
     setPts((prev) => {
       const next = [...prev] as [number, number, number, number];
       next[i * 2] = Math.min(1, Math.max(0, p.x));
-      next[i * 2 + 1] = Math.min(2, Math.max(-1, p.y));
+      next[i * 2 + 1] = Math.min(Y_MAX, Math.max(Y_MIN, p.y));
       return next;
     });
     setPreset("custom");
@@ -107,11 +114,27 @@ export function EasingPlayground({ height = 300 }: { height?: number }) {
               </g>
             );
           })}
+          {/* dashed borders of the unit box extended into the overshoot zone */}
+          {[0, 1].map((g) => {
+            const c = toSvg(0, g);
+            const d = toSvg(1, g);
+            return (
+              <line
+                key={g}
+                x1={c.x}
+                y1={c.y}
+                x2={d.x}
+                y2={d.y}
+                stroke="rgba(255,255,255,0.15)"
+                strokeDasharray="4 4"
+              />
+            );
+          })}
           <rect
             x={PAD}
-            y={PAD}
+            y={toSvg(0, 1).y}
             width={W - 2 * PAD}
-            height={H - 2 * PAD}
+            height={toSvg(0, 0).y - toSvg(0, 1).y}
             fill="none"
             stroke="rgba(255,255,255,0.12)"
             rx={4}
