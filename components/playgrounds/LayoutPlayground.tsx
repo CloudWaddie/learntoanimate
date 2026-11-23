@@ -57,7 +57,9 @@ export function LayoutPlayground() {
               layout
               key={i}
               transition={{ type: "spring", stiffness: 350, damping: 30 }}
-              className="h-14 rounded-lg border border-line bg-surface-2"
+              className={`h-14 rounded-lg border border-line bg-surface-2 ${
+                grid ? "" : "min-w-0 flex-1"
+              }`}
             />
           ))}
         </div>
