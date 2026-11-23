@@ -1,5 +1,7 @@
-.course-bar {
+.course-bar, .course-shell {
   --bar-height: 3.6rem;
+}
+.course-bar {
   position: sticky;
   top: 0;
   z-index: 20;
@@ -33,8 +35,8 @@
   background: var(--color-surface);
   color: var(--color-ink);
 }
-.course-shell { min-height: calc(100dvh - 3.6rem); }
-.course-shell > main { min-width: 0; }
+.course-shell { min-height: calc(100dvh - var(--bar-height)); }
+.course-shell > main { min-width: 0; scroll-margin-top: var(--bar-height); }
 .lesson-sidebar { display: none; }
 .sidebar-switch {
   display: flex;
