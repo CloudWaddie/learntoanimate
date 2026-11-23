@@ -1,16 +1,25 @@
+import Link from "next/link";
 import { Sidebar } from "@/components/Sidebar";
 import { MobileNav } from "@/components/MobileNav";
+import { Wordmark } from "@/components/Wordmark";
 
 export default function CourseLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div className="course-shell">
-      <Sidebar />
-      <div className="min-w-0">
-        <MobileNav />
+    <>
+      <header className="course-bar">
+        <Wordmark compact />
+        <nav aria-label="Course shortcuts">
+          <Link href="/#syllabus">Syllabus</Link>
+          <Link href="/gallery/">Gallery</Link>
+        </nav>
+      </header>
+      <MobileNav />
+      <div className="course-shell">
+        <Sidebar />
         <main id="main">{children}</main>
       </div>
-    </div>
+    </>
   );
 }

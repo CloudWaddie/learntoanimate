@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { CourseArticle } from "@/components/CourseArticle";
 import { adjacentLessons, allLessons, totalLessons } from "@/lib/content";
 import { useProgress } from "@/lib/progress";
 
@@ -8,7 +9,6 @@ export function LessonChrome({
   moduleSlug,
   lessonSlug,
   title,
-  description,
   minutes,
   moduleTitle,
   moduleNumber,
@@ -17,7 +17,6 @@ export function LessonChrome({
   moduleSlug: string;
   lessonSlug: string;
   title: string;
-  description: string;
   minutes: number;
   moduleTitle: string;
   moduleNumber: number;
@@ -30,20 +29,12 @@ export function LessonChrome({
   const done = mounted && completed.has(id);
 
   return (
-    <article className="course-article">
-      <header className="lesson-header">
-        <div className="eyebrow text-accent">Module {String(moduleNumber).padStart(2, "0")} / {moduleTitle}</div>
-        <h1>{title}</h1>
-        <p>{description}</p>
-        <div className="lesson-meta eyebrow">
-          <span>Lesson {index + 1} of {totalLessons}</span>
-          <span>~{minutes} min</span>
+    <CourseArticle title={title} footer={
+      <>
+        <div className="lesson-meta">
+          <span>Module {String(moduleNumber).padStart(2, "0")} · {moduleTitle}</span>
+          <span>Lesson {index + 1} of {totalLessons} · {minutes} min</span>
         </div>
-      </header>
-
-      <div className="prose-course">{children}</div>
-
-      <footer className="lesson-footer">
         <button
           type="button"
           onClick={() => toggle(id)}
@@ -64,7 +55,9 @@ export function LessonChrome({
             <strong className="text-sm font-semibold">{next ? next.lesson.title : "Syllabus"}</strong>
           </Link>
         </nav>
-      </footer>
-    </article>
+      </>
+    }>
+      {children}
+    </CourseArticle>
   );
 }

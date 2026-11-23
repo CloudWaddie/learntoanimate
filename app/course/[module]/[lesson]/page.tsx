@@ -45,7 +45,6 @@ export default async function LessonPage({
       moduleSlug={moduleSlug}
       lessonSlug={lessonSlug}
       title={found.lesson.title}
-      description={found.lesson.description}
       minutes={found.lesson.minutes}
       moduleTitle={found.module.title}
       moduleNumber={found.module.number}

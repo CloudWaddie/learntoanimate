@@ -2,41 +2,36 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Wordmark } from "@/components/Wordmark";
+import { useState } from "react";
 import { allLessons, modules, totalLessons } from "@/lib/content";
 import { useProgress } from "@/lib/progress";
+import { walkthroughs } from "@/lib/walkthroughs";
+
+type Mode = "lessons" | "walkthroughs";
 
 export function Sidebar() {
   const pathname = usePathname().replace(/\/$/, "");
+  const [choice, setChoice] = useState<{ path: string; mode: Mode }>();
+  const tab = choice?.path === pathname ? choice.mode
+    : pathname.startsWith("/course/walkthroughs/") ? "walkthroughs" : "lessons";
   const { mounted, completed } = useProgress();
   const count = mounted
     ? allLessons.filter(({ module, lesson }) => completed.has(`/course/${module.slug}/${lesson.slug}`)).length
     : 0;
 
   return (
-    <aside className="sticky top-0 hidden h-dvh flex-col overflow-y-auto border-r border-line bg-surface lg:flex">
-      <div className="border-b border-line px-5 py-5">
-        <Wordmark />
-        <div className="mt-5 flex items-baseline justify-between gap-2 text-xs text-muted">
-          <span id="progress-label">Course progress</span>
-          <span className="font-mono">{count} / {totalLessons}</span>
-        </div>
-        <div
-          className="mt-2 h-1 overflow-hidden bg-surface-2"
-          role="progressbar"
-          aria-labelledby="progress-label"
-          aria-valuenow={count}
-          aria-valuemax={totalLessons}
-        >
-          <div className="course-progress-value h-full bg-accent transition-[width] duration-300" style={{ width: `${count / totalLessons * 100}%` }} />
-        </div>
+    <aside className="lesson-sidebar">
+      <div className="sidebar-switch" role="group" aria-label="Course navigation mode">
+        <button type="button" aria-pressed={tab === "lessons"} onClick={() => setChoice({ path: pathname, mode: "lessons" })}>Fundamentals</button>
+        <button type="button" aria-pressed={tab === "walkthroughs"} onClick={() => setChoice({ path: pathname, mode: "walkthroughs" })}>Walkthroughs</button>
       </div>
 
-      <nav className="px-3 py-4" aria-label="Course lessons">
-        {modules.map((module) => (
-          <div key={module.slug} className="mb-4">
-            <div className="eyebrow mb-1 px-2.5">
-              {String(module.number).padStart(2, "0")} / {module.title}
+      <nav aria-label={tab === "lessons" ? "Course lessons" : "Course walkthroughs"}>
+        {tab === "lessons" ? modules.map((module) => (
+          <div key={module.slug} className="sidebar-module">
+            <div className="sidebar-module-heading">
+              <span>Module {String(module.number).padStart(2, "0")}</span>
+              <strong>{module.title}</strong>
             </div>
             <ul>
               {module.lessons.map((lesson) => {
@@ -48,10 +43,10 @@ export function Sidebar() {
                     <Link
                       href={href}
                       aria-current={active ? "page" : undefined}
-                      className={`flex items-baseline gap-2 rounded-sm px-2.5 py-1.5 text-[13px] hover:bg-stage ${active ? "bg-accent-soft font-semibold text-accent" : "text-body"}`}
+                      className="sidebar-link"
                     >
-                      <span className="w-3 shrink-0 text-xs text-mint" aria-hidden="true">{done ? "✓" : ""}</span>
                       {lesson.title}
+                      {done && <span className="ml-auto shrink-0 text-mint" aria-hidden="true">✓</span>}
                       {done && <span className="sr-only"> (complete)</span>}
                     </Link>
                   </li>
@@ -59,8 +54,33 @@ export function Sidebar() {
               })}
             </ul>
           </div>
-        ))}
+        )) : (
+          <div className="sidebar-module">
+            <div className="sidebar-module-heading"><strong>Project walkthroughs</strong></div>
+            <ul>
+              {walkthroughs.map(({ slug, title }) => {
+                const href = `/course/walkthroughs/${slug}`;
+                return (
+                  <li key={href}>
+                    <Link className="sidebar-link" href={href} aria-current={pathname === href ? "page" : undefined}>
+                      {title}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
       </nav>
+      <div className="sidebar-progress">
+        <div className="flex items-baseline justify-between gap-2 text-xs text-muted">
+          <span id="progress-label">Course progress</span>
+          <span>{count} / {totalLessons}</span>
+        </div>
+        <div className="mt-2 h-1 overflow-hidden rounded-full bg-surface-2" role="progressbar" aria-labelledby="progress-label" aria-valuenow={count} aria-valuemax={totalLessons}>
+          <div className="course-progress-value h-full bg-accent transition-[width] duration-300" style={{ width: `${count / totalLessons * 100}%` }} />
+        </div>
+      </div>
     </aside>
   );
 }

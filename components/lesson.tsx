@@ -12,14 +12,14 @@ export function Demo({
   caption?: string;
 }) {
   return (
-    <figure className="my-7 min-w-0 rounded-sm border border-line bg-surface">
+    <figure className="my-7 min-w-0 rounded-xl border border-line bg-surface">
       {(title || caption) && (
         <figcaption className="grid gap-1 border-b border-line px-4 py-3 sm:px-5">
           {title && <span className="text-sm font-semibold">{title}</span>}
           {caption && <span className="max-w-[66ch] text-[13px] leading-relaxed text-muted">{caption}</span>}
         </figcaption>
       )}
-      <div className="relative overflow-hidden">{children}</div>
+      <div className="relative overflow-hidden rounded-b-xl">{children}</div>
     </figure>
   );
 }
@@ -55,7 +55,7 @@ export function CodeBlock({
 }) {
   const [state, setState] = useState<"idle" | "copied" | "failed">("idle");
   return (
-    <div className="my-6 overflow-hidden rounded-sm border border-line bg-surface">
+    <div className="my-6 overflow-hidden rounded-xl border border-line bg-surface">
       <div className="flex items-center justify-between gap-2 border-b border-line px-4 py-2">
         <span className="font-mono text-xs text-muted">{title ?? "Code"}</span>
         <button
