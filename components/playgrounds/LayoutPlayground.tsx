@@ -12,15 +12,15 @@ export function LayoutPlayground() {
   return (
     <div className="space-y-6 p-4">
       <div>
-        <div className="mb-2 text-[11px] uppercase tracking-wider text-white/35">
+        <div className="mb-2 text-[11px] uppercase tracking-wider text-muted">
           shared element — the underline is one element, moved
         </div>
-        <div className="inline-flex rounded-xl bg-[#0d0d10] p-1">
+        <div className="inline-flex rounded-xl bg-stage p-1">
           {tabs.map((t, i) => (
             <button
               key={t}
               onClick={() => setTab(i)}
-              className="relative rounded-lg px-4 py-2 text-[13px] text-white/60 transition-colors hover:text-white"
+              className="relative rounded-lg px-4 py-2 text-[13px] text-body transition-colors hover:text-ink"
             >
               {tab === i && (
                 <motion.span
@@ -37,18 +37,18 @@ export function LayoutPlayground() {
 
       <div>
         <div className="mb-2 flex items-center justify-between">
-          <div className="text-[11px] uppercase tracking-wider text-white/35">
+          <div className="text-[11px] uppercase tracking-wider text-muted">
             layout animation — click to reflow
           </div>
           <button
             onClick={() => setGrid((g) => !g)}
-            className="rounded-lg border border-line bg-surface-2 px-3 py-1.5 text-[12px] font-medium text-white/70 transition-colors hover:border-white/25 hover:text-white"
+            className="rounded-lg border border-line bg-surface-2 px-3 py-1.5 text-[12px] font-medium text-body transition-colors hover:border-line-strong hover:text-ink"
           >
             {grid ? "Make it a row" : "Make it a grid"}
           </button>
         </div>
         <div
-          className={`rounded-xl bg-[#0d0d10] p-4 ${
+          className={`rounded-xl bg-stage p-4 ${
             grid ? "grid grid-cols-3 gap-3" : "flex gap-3"
           }`}
         >

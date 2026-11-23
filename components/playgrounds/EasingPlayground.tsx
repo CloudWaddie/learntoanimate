@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { ReplayButton } from "@/components/lesson";
 
 const PRESETS: { name: string; pts: [number, number, number, number] }[] = [
@@ -36,7 +36,7 @@ function fromSvg(px: number, py: number) {
   };
 }
 
-export function EasingPlayground({ height = 300 }: { height?: number }) {
+export function EasingPlayground() {
   const [pts, setPts] = useState<[number, number, number, number]>([
     0.34, 1.56, 0.64, 1,
   ]);
@@ -47,21 +47,28 @@ export function EasingPlayground({ height = 300 }: { height?: number }) {
 
   const easing = `cubic-bezier(${pts.map((n) => n.toFixed(2)).join(",")})`;
 
-  const replay = useCallback(() => {
+  const replay = () => {
     const el = ballRef.current;
-    if (!el) return;
+    if (!el?.parentElement) return;
+    el.getAnimations().forEach((animation) => animation.cancel());
+    const distance = Math.max(0, el.parentElement.clientWidth - el.offsetWidth - 24);
     el.animate(
       [
         { transform: "translateX(0px)", offset: 0 },
-        { transform: "translateX(190px)", offset: 1 },
+        { transform: `translateX(${distance}px)`, offset: 1 },
       ],
       { duration: 1200, easing, fill: "forwards" },
     );
-  }, [easing]);
+  };
 
-  useEffect(() => {
-    replay();
-  }, [replay]);
+  function updatePoints(index: number, value: number) {
+    setPts((prev) => {
+      const next = [...prev] as typeof prev;
+      next[index] = value;
+      return next;
+    });
+    setPreset("custom");
+  }
 
   const onPointerDown = (which: 0 | 1) => (e: React.PointerEvent) => {
     dragRef.current = which;
@@ -94,13 +101,16 @@ export function EasingPlayground({ height = 300 }: { height?: number }) {
 
   return (
     <div className="flex flex-col gap-4 p-4 sm:flex-row">
-      <div className="flex-1">
+      <div className="min-w-0 flex-1">
         <svg
           ref={svgRef}
           viewBox={`0 0 ${W} ${H}`}
+          role="img"
+          aria-label={`Easing curve for ${easing}`}
           className="w-full max-w-[300px] touch-none select-none"
           onPointerMove={onPointerMove}
           onPointerUp={onPointerUp}
+          onPointerCancel={onPointerUp}
         >
           {[0.25, 0.5, 0.75].map((g) => {
             const a = toSvg(g, 0);
@@ -108,7 +118,7 @@ export function EasingPlayground({ height = 300 }: { height?: number }) {
             const c = toSvg(0, g);
             const d = toSvg(1, g);
             return (
-              <g key={g} stroke="rgba(255,255,255,0.06)">
+              <g key={g} stroke="var(--color-line)">
                 <line x1={a.x} y1={a.y} x2={b.x} y2={b.y} />
                 <line x1={c.x} y1={c.y} x2={d.x} y2={d.y} />
               </g>
@@ -125,7 +135,7 @@ export function EasingPlayground({ height = 300 }: { height?: number }) {
                 y1={c.y}
                 x2={d.x}
                 y2={d.y}
-                stroke="rgba(255,255,255,0.15)"
+                stroke="var(--color-line-strong)"
                 strokeDasharray="4 4"
               />
             );
@@ -136,43 +146,44 @@ export function EasingPlayground({ height = 300 }: { height?: number }) {
             width={W - 2 * PAD}
             height={toSvg(0, 0).y - toSvg(0, 1).y}
             fill="none"
-            stroke="rgba(255,255,255,0.12)"
+            stroke="var(--color-line-strong)"
             rx={4}
           />
-          <line x1={p0.x} y1={p0.y} x2={p1.x} y2={p1.y} stroke="#6ee7b7" strokeOpacity={0.7} strokeDasharray="3 3" />
-          <line x1={p3.x} y1={p3.y} x2={p2.x} y2={p2.y} stroke="#6ee7b7" strokeOpacity={0.7} strokeDasharray="3 3" />
+          <line x1={p0.x} y1={p0.y} x2={p1.x} y2={p1.y} stroke="var(--color-mint)" strokeOpacity={0.7} strokeDasharray="3 3" />
+          <line x1={p3.x} y1={p3.y} x2={p2.x} y2={p2.y} stroke="var(--color-mint)" strokeOpacity={0.7} strokeDasharray="3 3" />
           <path
             d={`M ${p0.x} ${p0.y} C ${p1.x} ${p1.y} ${p2.x} ${p2.y} ${p3.x} ${p3.y}`}
             fill="none"
-            stroke="#ff7a45"
+            stroke="var(--color-accent)"
             strokeWidth={2.5}
           />
-          <circle cx={p1.x} cy={p1.y} r={9} fill="rgba(110,231,183,0.25)" />
+          <circle cx={p1.x} cy={p1.y} r={9} fill="rgba(23,103,73,0.15)" />
           <circle
             cx={p1.x}
             cy={p1.y}
             r={6}
-            fill="#6ee7b7"
+            fill="var(--color-mint)"
             className="cursor-grab"
             onPointerDown={onPointerDown(0)}
           />
-          <circle cx={p2.x} cy={p2.y} r={9} fill="rgba(110,231,183,0.25)" />
+          <circle cx={p2.x} cy={p2.y} r={9} fill="rgba(23,103,73,0.15)" />
           <circle
             cx={p2.x}
             cy={p2.y}
             r={6}
-            fill="#6ee7b7"
+            fill="var(--color-mint)"
             className="cursor-grab"
             onPointerDown={onPointerDown(1)}
           />
         </svg>
-        <div className="mt-1 font-mono text-[11px] text-white/40">{easing}</div>
+        <div className="mt-1 font-mono text-[11px] text-muted">{easing}</div>
       </div>
-      <div className="flex flex-1 flex-col justify-between gap-4">
+      <div className="flex min-w-0 flex-1 flex-col justify-between gap-4">
         <div className="flex flex-wrap gap-1.5">
           {PRESETS.map((p) => (
             <button
               key={p.name}
+              aria-pressed={preset === p.name}
               onClick={() => {
                 setPts(p.pts);
                 setPreset(p.name);
@@ -180,25 +191,44 @@ export function EasingPlayground({ height = 300 }: { height?: number }) {
               className={`rounded-md border px-2 py-1 font-mono text-[10.5px] transition-colors ${
                 preset === p.name
                   ? "border-accent/50 bg-accent-soft text-accent"
-                  : "border-line text-white/50 hover:border-white/25 hover:text-white/80"
+                  : "border-line text-muted hover:border-line-strong hover:text-body"
               }`}
             >
               {p.name}
             </button>
           ))}
         </div>
+        <details>
+          <summary className="text-xs font-medium text-accent">Edit curve coordinates</summary>
+          <div className="mt-2 grid grid-cols-2 gap-2">
+            {["x1", "y1", "x2", "y2"].map((name, index) => (
+              <label key={name} className="flex min-w-0 items-center gap-1 text-xs text-body">
+                {name}
+                <input
+                  type="range"
+                  className="min-w-0 flex-1 accent-accent"
+                  min={index % 2 === 0 ? 0 : Y_MIN}
+                  max={index % 2 === 0 ? 1 : Y_MAX}
+                  step={0.01}
+                  value={pts[index]}
+                  onChange={(event) => updatePoints(index, Number(event.target.value))}
+                />
+              </label>
+            ))}
+          </div>
+        </details>
         <div>
           <div className="mb-3 h-9">
-            <div className="relative h-full w-[230px]">
-              <div className="absolute inset-y-0 my-auto h-px w-full bg-white/10" />
+            <div className="relative h-full w-full max-w-[230px]">
+              <div className="absolute inset-y-0 my-auto h-px w-full bg-line" />
               <div
                 ref={ballRef}
-                className="absolute top-1/2 h-7 w-7 -translate-y-1/2 rounded-full bg-accent shadow-[0_0_16px_rgba(255,122,69,0.5)]"
+                className="absolute top-1/2 h-7 w-7 -translate-y-1/2 rounded-full bg-accent"
               />
             </div>
           </div>
           <ReplayButton onClick={replay} />
-          <p className="mt-3 text-[11.5px] leading-relaxed text-white/35">
+          <p className="mt-3 text-[11.5px] leading-relaxed text-muted">
             Drag the mint handles. Y above 1 = overshoot. Y below 0 =
             anticipation. The curve's slope is velocity.
           </p>

@@ -1,25 +1,23 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { modules } from "@/lib/content";
+import { Wordmark } from "@/components/Wordmark";
 
 export function MobileNav() {
   const router = useRouter();
-  const pathname = usePathname();
+  const pathname = usePathname().replace(/\/$/, "");
 
   return (
-    <div className="sticky top-0 z-30 flex items-center gap-3 border-b border-line bg-surface/95 px-4 py-3 backdrop-blur lg:hidden">
-      <Link href="/" className="flex shrink-0 items-center gap-2">
-        <span className="h-2 w-2 rounded-full bg-accent" />
-        <span className="text-[13px] font-semibold">Learn to Animate</span>
-      </Link>
+    <nav aria-label="Course navigation" className="flex items-center gap-3 border-b border-line bg-surface px-3 py-3 sm:px-5 lg:hidden">
+      <Wordmark />
       <select
         value={pathname}
         onChange={(e) => router.push(e.target.value)}
         aria-label="Jump to lesson"
-        className="min-w-0 flex-1 rounded-lg border border-line bg-bg px-2 py-1.5 text-[13px] text-white/80"
+        className="ml-auto min-w-0 max-w-56 flex-1 rounded-sm border border-line-strong bg-surface px-1 py-2 text-xs text-body"
       >
+        {pathname === "/course" && <option value="/course">Course overview</option>}
         {modules.map((m) => (
           <optgroup key={m.slug} label={`${m.number}. ${m.title}`}>
             {m.lessons.map((l) => (
@@ -30,6 +28,6 @@ export function MobileNav() {
           </optgroup>
         ))}
       </select>
-    </div>
+    </nav>
   );
 }

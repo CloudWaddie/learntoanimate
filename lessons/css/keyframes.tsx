@@ -73,9 +73,9 @@ export default function Lesson() {
 .skeleton {
   background: linear-gradient(
     90deg,
-    rgba(255,255,255,0.05) 25%,
-    rgba(255,255,255,0.12) 50%,
-    rgba(255,255,255,0.05) 75%
+    rgba(37,77,165,0.05) 25%,
+    rgba(37,77,165,0.12) 50%,
+    rgba(37,77,165,0.05) 75%
   );
   background-size: 400px 100%;
   animation: shimmer 1.6s linear infinite;
@@ -86,13 +86,13 @@ export default function Lesson() {
 .skeleton:nth-child(3) { animation-delay: -1.1s; }`}</CodeBlock>
 
       <Demo title="Keyframes vs transitions" caption="A two-state change is a transition's job. A loop, a wiggle, a multi-stage entrance — that's keyframes.">
-        <div className="grid gap-3 p-4 text-[12.5px] text-white/55 sm:grid-cols-2">
-          <div className="rounded-xl bg-[#0d0d10] p-3">
-            <div className="mb-1.5 font-medium text-white/70">use transition</div>
+        <div className="grid gap-3 p-4 text-[12.5px] text-muted sm:grid-cols-2">
+          <div className="rounded-xl bg-stage p-3">
+            <div className="mb-1.5 font-medium text-body">use transition</div>
             hover states · toggles · accordion height · focus rings · theme color fades
           </div>
-          <div className="rounded-xl bg-[#0d0d10] p-3">
-            <div className="mb-1.5 font-medium text-white/70">use keyframes</div>
+          <div className="rounded-xl bg-stage p-3">
+            <div className="mb-1.5 font-medium text-body">use keyframes</div>
             loops · skeletons · spinners · staged entrances · hand-made bounce &amp; shake
           </div>
         </div>

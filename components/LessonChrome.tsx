@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { adjacentLessons } from "@/lib/content";
+import { adjacentLessons, allLessons, totalLessons } from "@/lib/content";
 import { useProgress } from "@/lib/progress";
 
 export function LessonChrome({
@@ -24,70 +24,47 @@ export function LessonChrome({
   children: React.ReactNode;
 }) {
   const { prev, next } = adjacentLessons(moduleSlug, lessonSlug);
+  const index = allLessons.findIndex(({ module, lesson }) => module.slug === moduleSlug && lesson.slug === lessonSlug);
   const { mounted, completed, toggle } = useProgress();
   const id = `/course/${moduleSlug}/${lessonSlug}`;
   const done = mounted && completed.has(id);
 
   return (
-    <article className="mx-auto max-w-[720px] px-6 py-14">
-      <div className="text-[12px] uppercase tracking-[0.16em] text-accent/90 font-medium mb-4">
-        {moduleNumber}. {moduleTitle}
-      </div>
-      <h1 className="text-[2.4rem] leading-[1.1] font-bold tracking-tight text-white">
-        {title}
-      </h1>
-      <p className="mt-3 text-[15px] text-white/50 leading-relaxed">
-        {description}
-      </p>
-      <div className="mt-4 flex items-center gap-3 text-[12px] text-white/35">
-        <span>{minutes} min read</span>
-        <span className="h-1 w-1 rounded-full bg-white/20" />
+    <article className="course-article">
+      <header className="lesson-header">
+        <div className="eyebrow text-accent">Module {String(moduleNumber).padStart(2, "0")} / {moduleTitle}</div>
+        <h1>{title}</h1>
+        <p>{description}</p>
+        <div className="lesson-meta eyebrow">
+          <span>Lesson {index + 1} of {totalLessons}</span>
+          <span>~{minutes} min</span>
+        </div>
+      </header>
+
+      <div className="prose-course">{children}</div>
+
+      <footer className="lesson-footer">
         <button
+          type="button"
           onClick={() => toggle(id)}
-          className={`rounded-full border px-3 py-1 transition-colors ${
-            done
-              ? "border-mint/40 bg-mint/10 text-mint"
-              : "border-line text-white/50 hover:border-white/30 hover:text-white"
-          }`}
+          aria-pressed={done}
+          className={done ? "button-secondary text-mint" : "button-primary"}
         >
-          {done ? "Completed ✓" : "Mark complete"}
+          {done ? "✓ Completed" : "Mark lesson complete"}
         </button>
-      </div>
-
-      <div className="mt-10 prose-course">{children}</div>
-
-      <nav className="mt-16 grid grid-cols-2 gap-4 border-t border-line pt-8">
-        {prev ? (
-          <Link
-            href={`/course/${prev.module.slug}/${prev.lesson.slug}`}
-            className="group rounded-xl border border-line p-4 transition-colors hover:border-white/25"
-          >
-            <div className="text-[11px] uppercase tracking-wider text-white/35 mb-1">
-              ← Previous
-            </div>
-            <div className="text-sm font-medium text-white/80 group-hover:text-white">
-              {prev.lesson.title}
-            </div>
+        <nav aria-label="Lesson navigation">
+          {prev ? (
+            <Link href={`/course/${prev.module.slug}/${prev.lesson.slug}`}>
+              <span className="eyebrow block">← Previous</span>
+              <strong className="text-sm font-semibold">{prev.lesson.title}</strong>
+            </Link>
+          ) : <span />}
+          <Link className="text-right" href={next ? `/course/${next.module.slug}/${next.lesson.slug}` : "/#syllabus"}>
+            <span className="eyebrow block">{next ? "Next →" : "Course overview →"}</span>
+            <strong className="text-sm font-semibold">{next ? next.lesson.title : "Syllabus"}</strong>
           </Link>
-        ) : (
-          <span />
-        )}
-        {next ? (
-          <Link
-            href={`/course/${next.module.slug}/${next.lesson.slug}`}
-            className="group rounded-xl border border-line p-4 text-right transition-colors hover:border-white/25"
-          >
-            <div className="text-[11px] uppercase tracking-wider text-white/35 mb-1">
-              Next →
-            </div>
-            <div className="text-sm font-medium text-white/80 group-hover:text-white">
-              {next.lesson.title}
-            </div>
-          </Link>
-        ) : (
-          <span />
-        )}
-      </nav>
+        </nav>
+      </footer>
     </article>
   );
 }

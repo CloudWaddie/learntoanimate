@@ -1,97 +1,33 @@
-"use client";
-
-import { Callout, CodeBlock, Demo, Exercise } from "@/components/lesson";
+import { CodeBlock, Demo, Exercise } from "@/components/lesson";
 import { EasingPlayground } from "@/components/playgrounds/EasingPlayground";
 
 export default function Lesson() {
   return (
     <>
-      <p>
-        Nothing in nature moves at a constant speed, and nothing in nature
-        teleports to full speed instantly. <strong>Easing is the difference
-        between motion and movement.</strong> It's also the single highest-
-        leverage knob in animation: the same 300ms slide feels cheap with the
-        wrong curve and expensive with the right one.
-      </p>
+      <p>Easing describes how progress changes over a fixed duration. Two panels can move the same distance in 200 ms and still arrive differently. One gets most of the way there early, while another builds speed later.</p>
 
-      <h2>Reading a bézier curve</h2>
-      <p>
-        CSS easings are cubic béziers: <code>cubic-bezier(x1, y1, x2, y2)</code>.
-        The curve runs from (0,0) — animation start — to (1,1) — animation end.
-        X is time, Y is progress. <strong>The slope of the curve is velocity:</strong>
-        steep means fast, flat means slow. The two handles you're about to drag
-        are the only knobs.
-      </p>
-      <p>
-        Y can leave the [0, 1] box. Push a handle above the top edge and the
-        animation overshoots its target before settling — this is how you get
-        bounce without springs. Pull a handle below the bottom and you get
-        anticipation: a small backwards dip before launch, like a crouch before
-        a jump.
-      </p>
-
-      <Demo
-        title="The easing editor"
-        caption="Drag the mint handles beyond the box edges — watch overshoot and anticipation appear in the ball's motion."
-      >
+      <Demo title="Easing editor" caption="Select linear, ease-out, then ease-in. Replay each curve and notice where the marker spends the most time.">
         <EasingPlayground />
       </Demo>
 
-      <h2>The two families that matter</h2>
-      <p>
-        <strong>Ease-out (fast start, slow end)</strong> is the default for UI.
-        Elements entering the screen, menus opening, anything responding to a
-        click: attack fast so it feels responsive, decelerate into place so it
-        feels controlled. Nearly every good interface you use is ease-out all
-        the way down.
-      </p>
-      <p>
-        <strong>Ease-in (slow start, fast end)</strong> is for things leaving —
-        an element accelerating off screen as if pulled by gravity. It feels
-        wrong for entrances because the slow start reads as lag: you clicked,
-        and nothing visibly happened for a beat.
-      </p>
+      <h2>Read the curve</h2>
+      <p>The horizontal axis is elapsed time. The vertical axis is progress from a starting value to an ending value. A steeper slope means more progress over the same interval. A flat section means the animated value barely changes.</p>
+      <p>With <code>cubic-bezier(x1, y1, x2, y2)</code>, the endpoints stay at (0, 0) and (1, 1). You control the two intermediate handles. The x coordinates must stay between 0 and 1. The y coordinates can extend beyond that range. A curve that rises above 1 briefly overshoots on properties that allow it, such as translation.</p>
 
-      <Callout>
-        Rule of thumb: entering → ease-out, exiting → ease-in,
-        moving between two visible states → ease-in-out. When everything else
-        fails, <code>ease-out</code> with a slight overshoot is almost never
-        wrong.
-      </Callout>
+      <h2>Match the curve to the change</h2>
+      <ul>
+        <li><strong>Ease-out</strong> makes visible progress early. Try it when revealing a panel in response to a click.</li>
+        <li><strong>Ease-in-out</strong> starts and ends gradually. Try it for a visible object moving between positions.</li>
+        <li><strong>Linear</strong> gives constant progress. Use it when the animated value should change at a steady rate.</li>
+      </ul>
 
-      <h2>A small set of named curves</h2>
-      <CodeBlock title="the curves worth memorizing">{`:root {
-  /* the default deceleration curve — start here */
-  --ease-out: cubic-bezier(0.32, 0.72, 0, 1);
-  /* gentle overshoot for popovers, toasts, menus */
-  --ease-out-back: cubic-bezier(0.34, 1.56, 0.64, 1);
-  /* stronger overshoot for playful moments */
-  --ease-springy: cubic-bezier(0.2, 1.4, 0.4, 1);
-  /* accelerating exit */
-  --ease-in: cubic-bezier(0.5, 0, 1, 0.5);
+      <CodeBlock title="CSS · a starting curve">{`.panel {
+  transition: opacity 180ms ease-out,
+    transform 180ms cubic-bezier(0.22, 0.75, 0.24, 1);
 }`}</CodeBlock>
 
-      <h2>Linear is a code smell</h2>
-      <p>
-        Linear easing has exactly two legitimate uses: progress indicators and
-        continuously-rotating spinners — cases where constant speed <em>is</em>
-        the meaning. Everywhere else it reads as robotic. If your motion feels
-        mechanical, check for a stray <code>linear</code> or the browser's
-        default <code>ease</code> first — both are common accidental defaults.
-      </p>
-
-      <Exercise
-        solution={
-          <p>
-            An overshooting ease-out like{" "}
-            <code>cubic-bezier(0.34, 1.56, 0.64, 1)</code>. The card scales up,
-            passes 1.0 briefly, and settles — a tiny celebration. Pure ease-out
-            would look correct but sterile; pure linear would look broken.
-          </p>
-        }
-      >
-        A "match found" card pops onto screen in a game UI. Which family of
-        easing fits, and why? Sketch the rough curve shape you'd pick.
+      <Exercise solution={<p>Ease-out should cover more than half the track in the first half of the duration. The curve sits above the diagonal at the midpoint. Back-out briefly rises above 100%, so the marker should pass its target and return.</p>}>
+        Keep the duration fixed. Predict where the linear and ease-out markers will be halfway through the run, then replay to check your prediction. Compare back-out next and find its overshoot on the graph.
       </Exercise>
     </>
   );

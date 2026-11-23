@@ -1,24 +1,35 @@
 "use client";
 
-import { motion } from "motion/react";
-import { Callout, Demo } from "@/components/lesson";
-import { Compare } from "@/components/playgrounds/Compare";
+import { useState } from "react";
+import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { Demo, Exercise } from "@/components/lesson";
 
-function Card({ instant }: { instant?: boolean }) {
+function SortPreview({ animate }: { animate: boolean }) {
+  const [sorted, setSorted] = useState(false);
+  const reduce = useReducedMotion();
+  const rows = ["Update release notes", "Fix checkout error", "Archive old exports"];
+  const order = sorted ? [1, 0, 2] : [0, 1, 2];
+
   return (
-    <div className="h-40 rounded-xl bg-[#0d0d10] p-4">
-      <motion.div
-        initial={instant ? false : { opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={
-          instant ? { duration: 0 } : { type: "spring", stiffness: 320, damping: 28 }
-        }
-        className="rounded-xl border border-line bg-surface-2 p-4"
-      >
-        <div className="mb-2 h-2.5 w-24 rounded bg-white/15" />
-        <div className="mb-1.5 h-2 w-full rounded bg-white/8" />
-        <div className="h-2 w-2/3 rounded bg-white/8" />
-      </motion.div>
+    <div className="min-w-0 p-4">
+      <button type="button" aria-pressed={sorted} className="button-secondary" onClick={() => setSorted(!sorted)}>
+        Sort by priority
+      </button>
+      <span className="ml-2 text-xs text-muted">{animate ? "Animated" : "Instant"}</span>
+      <ul className="mt-3 divide-y divide-line rounded-sm border border-line bg-stage">
+        <AnimatePresence initial={false}>
+          {order.map((i) => (
+            <motion.li
+              key={rows[i]}
+              layout={animate && !reduce ? "position" : false}
+              transition={{ type: "spring", stiffness: 470, damping: 36 }}
+              className="px-3 py-2 text-sm text-body"
+            >
+              {rows[i]}
+            </motion.li>
+          ))}
+        </AnimatePresence>
+      </ul>
     </div>
   );
 }
@@ -26,73 +37,29 @@ function Card({ instant }: { instant?: boolean }) {
 export default function Lesson() {
   return (
     <>
-      <p>
-        Animation is not decoration. In a real interface, motion is how the
-        software <strong>talks back</strong>: it confirms that your click
-        registered, shows where new content came from, and preserves your sense
-        of place while the screen rearranges itself.
-      </p>
-      <p>
-        Without motion, interfaces teleport. A panel appears out of nowhere, a
-        deleted row vanishes, a tab's content swaps instantly. Your brain has to
-        re-parse the whole screen to figure out what changed. With even a short,
-        well-chosen animation, the change <em>narrates itself</em> — you
-        literally watch the old state become the new one.
-      </p>
+      <p>In a list of issues, sorting by priority changes where a row lives. A short transition can help someone keep their place: the row they were reading visibly moves. For a single checkbox, a check mark usually gives enough feedback on its own.</p>
 
-      <h2>The three jobs of motion</h2>
-      <ul>
-        <li>
-          <strong>Feedback.</strong> A button that depresses on click, a toggle
-          that slides — proof that the interface heard you.
-        </li>
-        <li>
-          <strong>Continuity.</strong> A sidebar that slides out keeps its
-          identity; you know it's the same object, just moved. Appearing and
-          teleporting are not the same thing.
-        </li>
-        <li>
-          <strong>Character.</strong> A springy overshoot on a success
-          checkmark, a subtle settle on a modal. This is where products stop
-          feeling generic.
-        </li>
-      </ul>
-
-      <Demo
-        title="Same content, two personalities"
-        caption="Left: appears instantly — you have to notice it changed. Right: enters with a spring — you watch it arrive."
-      >
-        <Compare a={<Card instant />} b={<Card />} labelA="instant" labelB="animated" />
+      <Demo title="Follow the checkout issue" caption="Sort each list by priority. Keep your eyes on “Fix checkout error” as it moves from second to first.">
+        <div className="grid divide-line sm:grid-cols-2 sm:divide-x">
+          <SortPreview animate={false} />
+          <SortPreview animate />
+        </div>
       </Demo>
 
-      <h2>The trap: animation as garnish</h2>
-      <p>
-        The failure mode is motion that exists because it can — long fades on
-        every page load, parallax that fights the scrollbar, reveals that make
-        you wait for content you came to read. Users feel this as slowness and
-        self-indulgence, not polish.
-      </p>
-      <p>
-        The rule of thumb that organizes everything else in this course:{" "}
-        <strong>animate the change, not the surface.</strong> Motion should map
-        to something the user did or something that just changed. Decorative
-        motion is allowed — it just has to earn its duration.
-      </p>
+      <h2>Describe the state change</h2>
+      <p>Before writing any animation code, name the trigger and the two states. In this example, the trigger is sorting by priority. Before and after, the list contains the same issues in different positions. That makes position the useful thing to animate.</p>
+      <ul>
+        <li><strong>Feedback</strong> confirms an action, such as a save changing to “Saved.” Keep the text or state indicator so the feedback survives without motion.</li>
+        <li><strong>Continuity</strong> helps someone follow the same object through a change, such as an issue moving to a new position.</li>
+        <li><strong>Emphasis</strong> draws attention to a specific change, such as an error appearing beside the field that caused it.</li>
+      </ul>
 
-      <Callout>
-        By the end of this course you'll be able to look at any interface and
-        say <em>why</em> its animation feels good or bad — and name the exact
-        ingredient (duration, easing, origin, interruptibility) responsible.
-      </Callout>
+      <Exercise solution={<p>Sorting has a clear continuity problem. On first load, there is no previous row position to track, so rendering the list immediately gives the reader a stable starting point.</p>}>
+        Imagine this list opens with an entrance animation on every visit. Write one sentence explaining which animation you would keep, the change it communicates, and how a user can tell what happened with motion turned off.
+      </Exercise>
 
-      <h2>How this course works</h2>
-      <p>
-        Every concept comes with a live playground. Don't just read — drag the
-        handles, push values to extremes, break things. Taste in animation is
-        trained by <em>feeling</em> the difference between 200ms and 400ms, not
-        by memorizing numbers. The code snippets are real; copy them into your
-        own projects.
-      </p>
+      <h2>What you’ll build</h2>
+      <p>Start by comparing duration and easing in the browser. Then build press feedback in CSS and a sortable list in React. The final project combines those skills in an issue tracker that also lets you open, resolve, and reopen issues.</p>
     </>
   );
 }

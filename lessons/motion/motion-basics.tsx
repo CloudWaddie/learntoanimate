@@ -51,7 +51,7 @@ export default function Lesson() {
             { init: { opacity: 0, x: -24 }, label: "slide" },
             { init: { opacity: 0, rotate: -6, y: 14 }, label: "tilt" },
           ].map(({ init, label }, i) => (
-            <div key={label} className="h-24 rounded-xl bg-[#0d0d10] p-2">
+            <div key={label} className="h-24 rounded-xl bg-stage p-2">
               <motion.div
                 initial={init}
                 animate={{ opacity: 1, x: 0, y: 0, scale: 1, rotate: 0 }}
@@ -61,7 +61,7 @@ export default function Lesson() {
                   damping: 26,
                   delay: i * 0.07,
                 }}
-                className="flex h-full items-center justify-center rounded-lg border border-line bg-surface-2 text-[11px] text-white/50"
+                className="flex h-full items-center justify-center rounded-lg border border-line bg-surface-2 text-[11px] text-muted"
               >
                 {label}
               </motion.div>

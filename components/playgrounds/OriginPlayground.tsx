@@ -30,7 +30,7 @@ export function OriginPlayground() {
             className={`rounded-md border px-2 py-1 text-[11px] transition-colors ${
               origin === o
                 ? "border-accent/50 bg-accent-soft text-accent"
-                : "border-line text-white/50 hover:border-white/25"
+                : "border-line text-muted hover:border-line-strong"
             }`}
           >
             {o}
@@ -41,13 +41,13 @@ export function OriginPlayground() {
             setOpen((o) => !o);
             setRunId((r) => r + 1);
           }}
-          className="ml-auto rounded-lg border border-line bg-surface-2 px-3 py-1.5 text-[12px] font-medium text-white/70 hover:border-white/25 hover:text-white"
+          className="ml-auto rounded-lg border border-line bg-surface-2 px-3 py-1.5 text-[12px] font-medium text-body hover:border-line-strong hover:text-ink"
         >
           toggle
         </button>
       </div>
-      <div className="relative h-44 overflow-hidden rounded-xl bg-[#0d0d10]">
-        <div className="absolute right-4 top-4 text-[11px] text-white/30">
+      <div className="relative h-44 overflow-hidden rounded-xl bg-stage">
+        <div className="absolute right-4 top-4 text-[11px] text-muted">
           ← pretend trigger is up here
         </div>
         {open && (
@@ -62,7 +62,7 @@ export function OriginPlayground() {
             {["New file", "Duplicate", "Rename…", "Delete"].map((item) => (
               <div
                 key={item}
-                className="rounded-md px-2.5 py-1.5 text-[12.5px] text-white/70 hover:bg-white/5"
+                className="rounded-md px-2.5 py-1.5 text-[12.5px] text-body hover:bg-line"
               >
                 {item}
               </div>
@@ -70,7 +70,7 @@ export function OriginPlayground() {
           </motion.div>
         )}
       </div>
-      <p className="mt-3 text-[11.5px] leading-relaxed text-white/35">
+      <p className="mt-3 text-[11.5px] leading-relaxed text-muted">
         A menu should grow from its trigger — scale from the corner nearest the
         button, not the center. Try &quot;center&quot; and feel the difference.
       </p>

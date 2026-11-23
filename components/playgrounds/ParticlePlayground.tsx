@@ -16,7 +16,7 @@ type Particle = {
   color: string;
 };
 
-const COLORS = ["#ff7a45", "#ffb38a", "#6ee7b7", "#f4f4f6", "#ffcf5c"];
+const COLORS = ["#254da5", "#5574bd", "#176749", "#8663a6", "#bd7e2e"];
 
 export function ParticlePlayground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -90,7 +90,7 @@ export function ParticlePlayground() {
         width={640}
         height={260}
         onClick={burst}
-        className="w-full cursor-pointer rounded-xl bg-[#0d0d10]"
+        className="w-full cursor-pointer rounded-xl bg-stage"
       />
       <div className="mt-3 grid gap-2.5 sm:grid-cols-2">
         <Slider label="count" value={count} min={10} max={200} step={5} onChange={setCount} />
@@ -98,7 +98,7 @@ export function ParticlePlayground() {
         <Slider label="gravity" value={gravity} min={0} max={0.8} step={0.05} onChange={setGravity} format={(v) => v.toFixed(2)} />
         <Slider label="spread" value={spread} min={30} max={360} step={10} onChange={setSpread} format={(v) => `${v}°`} />
       </div>
-      <p className="mt-3 text-[11.5px] text-white/35">
+      <p className="mt-3 text-[11.5px] text-muted">
         Click anywhere in the dark area. Particles are just physics: random
         velocity in an arc, gravity, drag, and a fade-out on life.
       </p>
