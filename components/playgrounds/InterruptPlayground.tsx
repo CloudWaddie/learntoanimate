@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState } from "react";
-import { motion, animate } from "motion/react";
+import { useEffect, useState } from "react";
+import { motion, animate, useMotionValue } from "motion/react";
 
 function Track({
   label,
@@ -27,39 +27,28 @@ function Track({
 }
 
 function Ball({ mode, target }: { mode: "spring" | "ease"; target: boolean }) {
-  const ref = useRef<HTMLDivElement>(null);
-  const anim = useRef<ReturnType<typeof animate> | null>(null);
-  const current = useRef(0);
-  const lastTarget = useRef(target);
+  const x = useMotionValue(0);
 
-  if (lastTarget.current !== target) {
-    lastTarget.current = target;
-    anim.current?.stop();
-    const to = target ? 208 : 0;
-    anim.current =
+  // Animating a MotionValue (not a from/to pair) keeps the spring's velocity,
+  // so a mid-flight retarget veers instead of restarting from standstill.
+  useEffect(() => {
+    const controls =
       mode === "spring"
-        ? animate(current.current, to, {
+        ? animate(x, target ? 208 : 0, {
             type: "spring",
             stiffness: 260,
             damping: 26,
-            onUpdate: (v) => {
-              current.current = v;
-              if (ref.current) ref.current.style.transform = `translateX(${v}px)`;
-            },
           })
-        : animate(current.current, to, {
+        : animate(x, target ? 208 : 0, {
             duration: 0.6,
             ease: [0.32, 0.72, 0, 1],
-            onUpdate: (v) => {
-              current.current = v;
-              if (ref.current) ref.current.style.transform = `translateX(${v}px)`;
-            },
           });
-  }
+    return () => controls.stop();
+  }, [target, mode, x]);
 
   return (
-    <div
-      ref={ref}
+    <motion.div
+      style={{ x }}
       className={`absolute left-6 top-1/2 h-8 w-8 -translate-y-1/2 rounded-full ${
         mode === "spring" ? "bg-accent" : "bg-white/40"
       }`}
