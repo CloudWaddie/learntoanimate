@@ -22,7 +22,7 @@ export function DragPlayground() {
       </div>
       <div
         ref={box}
-        className="relative h-48 overflow-hidden rounded-xl bg-[#0d0d10]"
+        className="relative flex h-48 items-center justify-center overflow-hidden rounded-xl bg-[#0d0d10]"
       >
         <div className="pointer-events-none absolute inset-x-8 top-1/2 h-px bg-white/8" />
         <motion.div
@@ -31,7 +31,7 @@ export function DragPlayground() {
           dragElastic={elastic ? 0.4 : 0}
           dragTransition={{ bounceStiffness: 400, bounceDamping: 18 }}
           whileDrag={{ scale: 1.06, rotate: 2, cursor: "grabbing" }}
-          className="absolute left-1/2 top-1/2 h-24 w-40 -translate-x-1/2 -translate-y-1/2 cursor-grab rounded-2xl border border-accent/40 bg-gradient-to-br from-accent-soft to-surface-2 p-3 shadow-xl"
+          className="h-24 w-40 cursor-grab rounded-2xl border border-accent/40 bg-gradient-to-br from-accent-soft to-surface-2 p-3 shadow-xl"
         >
           <div className="mb-2 h-2 w-16 rounded bg-accent/50" />
           <div className="h-1.5 w-full rounded bg-white/10" />
