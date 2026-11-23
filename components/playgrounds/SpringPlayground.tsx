@@ -18,25 +18,24 @@ export function SpringPlayground() {
   const [mass, setMass] = useState(1);
   const ballRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const animation = useRef<ReturnType<typeof animate> | null>(null);
 
   const replay = () => {
     const el = ballRef.current;
-    const canvas = canvasRef.current;
     if (!el) return;
+    animation.current?.stop();
     const samples: number[] = [];
-    const controls = animate(0, 190, {
+    animation.current = animate(0, 1, {
       type: "spring",
       stiffness,
       damping,
       mass,
       onUpdate: (v) => {
-        el.style.transform = `translateX(${v}px)`;
+        el.style.left = `${v * 50}%`;
         samples.push(v);
       },
       onComplete: () => draw(samples),
-      onStop: () => draw(samples),
     });
-    return () => controls.stop();
   };
 
   const draw = (samples: number[]) => {
@@ -49,7 +48,7 @@ export function SpringPlayground() {
     ctx.clearRect(0, 0, w, h);
     ctx.strokeStyle = "#a3aec0";
     ctx.beginPath();
-    const targetY = h - (190 / 240) * h;
+    const targetY = h / 2;
     ctx.moveTo(0, targetY);
     ctx.lineTo(w, targetY);
     ctx.setLineDash([4, 4]);
@@ -60,7 +59,7 @@ export function SpringPlayground() {
     ctx.beginPath();
     samples.forEach((v, i) => {
       const x = (i / Math.max(1, samples.length - 1)) * w;
-      const y = h - (v / 240) * h;
+      const y = h - (v / 2) * h;
       i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
     });
     ctx.stroke();
@@ -68,7 +67,10 @@ export function SpringPlayground() {
 
   useEffect(() => {
     const t = setTimeout(replay, 150);
-    return () => clearTimeout(t);
+    return () => {
+      clearTimeout(t);
+      animation.current?.stop();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stiffness, damping, mass]);
 
@@ -100,16 +102,13 @@ export function SpringPlayground() {
             : "(overdamped — no bounce)"}
         </div>
       </div>
-      <div className="flex-1">
-        <div className="relative mb-3 h-9">
-          <div className="absolute inset-y-0 my-auto h-px w-[230px] bg-line" />
-          <div
-            className="absolute right-0 top-1/2 h-4 w-0.5 -translate-y-1/2 bg-mint/60"
-            style={{ marginRight: 0 }}
-          />
+      <div className="min-w-0 flex-1">
+        <div className="relative mx-3.5 mb-3 h-9">
+          <div className="absolute inset-x-0 inset-y-0 my-auto h-px bg-line" />
+          <div className="absolute left-1/2 top-1/2 h-4 w-0.5 -translate-x-1/2 -translate-y-1/2 bg-mint/60" />
           <div
             ref={ballRef}
-            className="absolute top-1/2 h-7 w-7 -translate-y-1/2 rounded-full bg-accent"
+            className="absolute left-0 top-1/2 h-7 w-7 -translate-x-1/2 -translate-y-1/2 rounded-full bg-accent"
           />
         </div>
         <canvas ref={canvasRef} width={280} height={90} className="w-full rounded-lg bg-stage" />
