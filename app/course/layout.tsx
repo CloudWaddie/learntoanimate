@@ -9,7 +9,7 @@ export default function CourseLayout({
   return (
     <>
       <header className="course-bar">
-        <Wordmark compact />
+        <Wordmark />
         <nav aria-label="Course shortcuts">
           <Link href="/#syllabus">Syllabus</Link>
           <Link href="/gallery/">Gallery</Link>

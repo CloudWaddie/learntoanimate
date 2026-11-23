@@ -1,11 +1,12 @@
 .notice-demo {
   display: grid;
+  align-content: center;
   justify-items: center;
   gap: .8rem;
   padding: 1rem;
-  background: #f4f5f8;
+  background: #f4f4f2;
   color: #252935;
-  font-family: system-ui, sans-serif;
+  font-family: var(--font-sans, system-ui, sans-serif);
 }
 .notice-stage { display: grid; align-items: center; min-height: 12.9rem; width: min(100%, 20.5rem); }
 .notice-stack {

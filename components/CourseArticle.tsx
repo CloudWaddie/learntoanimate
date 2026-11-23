@@ -4,10 +4,14 @@ import { type ReactNode, useEffect, useRef, useState } from "react";
 
 export function CourseArticle({
   title,
+  eyebrow,
+  description,
   children,
   footer,
 }: {
   title: string;
+  eyebrow?: string;
+  description?: string;
   children: ReactNode;
   footer: ReactNode;
 }) {
@@ -34,7 +38,11 @@ export function CourseArticle({
   return (
     <div className="lesson-frame">
       <article className="course-article">
-        <header className="lesson-header"><h1>{title}</h1></header>
+        <header className="lesson-header">
+          {eyebrow && <div className="lesson-eyebrow">{eyebrow}</div>}
+          <h1>{title}</h1>
+          {description && <p>{description}</p>}
+        </header>
         <div ref={content} className="prose-course">{children}</div>
         <footer className="lesson-footer">{footer}</footer>
       </article>

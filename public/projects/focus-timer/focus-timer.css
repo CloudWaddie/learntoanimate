@@ -1,12 +1,13 @@
 .focus-demo {
-  --focus-paper: #f6f5f3;
+  --focus-paper: #f4f4f2;
   display: grid;
+  align-content: center;
   justify-items: center;
   gap: 1rem;
   padding: 1.85rem 1rem 1.2rem;
   background: var(--focus-paper);
   color: #151617;
-  font-family: system-ui, sans-serif;
+  font-family: var(--font-sans, system-ui, sans-serif);
 }
 .focus-device {
   display: grid;
@@ -53,10 +54,12 @@
   min-height: 2.3rem;
   padding: .35rem .75rem;
   border: 1px solid #dadbd6;
-  border-radius: .5rem;
+  border-radius: .55rem;
   background: #fff;
   color: #252822;
-  font: 600 .75rem system-ui, sans-serif;
+  font-family: inherit;
+  font-size: .78rem;
+  font-weight: 600;
   cursor: pointer;
 }
 .focus-controls button:disabled { color: #686e66; cursor: default; }
