@@ -47,7 +47,7 @@ export function SpringPlayground() {
     const w = canvas.width;
     const h = canvas.height;
     ctx.clearRect(0, 0, w, h);
-    ctx.strokeStyle = "rgba(255,255,255,0.08)";
+    ctx.strokeStyle = "#a3aec0";
     ctx.beginPath();
     const targetY = h - (190 / 240) * h;
     ctx.moveTo(0, targetY);
@@ -55,7 +55,7 @@ export function SpringPlayground() {
     ctx.setLineDash([4, 4]);
     ctx.stroke();
     ctx.setLineDash([]);
-    ctx.strokeStyle = "#ff7a45";
+    ctx.strokeStyle = "#254da5";
     ctx.lineWidth = 2;
     ctx.beginPath();
     samples.forEach((v, i) => {
@@ -84,7 +84,7 @@ export function SpringPlayground() {
                 setDamping(p.damping);
                 setMass(p.mass);
               }}
-              className="rounded-md border border-line px-2 py-1 font-mono text-[10.5px] text-white/50 transition-colors hover:border-white/25 hover:text-white/80"
+              className="rounded-md border border-line px-2 py-1 font-mono text-[10.5px] text-muted transition-colors hover:border-line-strong hover:text-body"
             >
               {p.name}
             </button>
@@ -93,7 +93,7 @@ export function SpringPlayground() {
         <Slider label="stiffness" value={stiffness} min={20} max={1000} onChange={setStiffness} />
         <Slider label="damping" value={damping} min={1} max={80} onChange={setDamping} />
         <Slider label="mass" value={mass} min={0.2} max={4} step={0.1} onChange={setMass} format={(v) => v.toFixed(1)} />
-        <div className="pt-1 font-mono text-[11px] text-white/40">
+        <div className="pt-1 font-mono text-[11px] text-muted">
           damping ratio ≈ {(damping / (2 * Math.sqrt(stiffness * mass))).toFixed(2)}{" "}
           {damping / (2 * Math.sqrt(stiffness * mass)) < 1
             ? "(underdamped — oscillates)"
@@ -102,19 +102,19 @@ export function SpringPlayground() {
       </div>
       <div className="flex-1">
         <div className="relative mb-3 h-9">
-          <div className="absolute inset-y-0 my-auto h-px w-[230px] bg-white/10" />
+          <div className="absolute inset-y-0 my-auto h-px w-[230px] bg-line" />
           <div
             className="absolute right-0 top-1/2 h-4 w-0.5 -translate-y-1/2 bg-mint/60"
             style={{ marginRight: 0 }}
           />
           <div
             ref={ballRef}
-            className="absolute top-1/2 h-7 w-7 -translate-y-1/2 rounded-full bg-accent shadow-[0_0_16px_rgba(255,122,69,0.5)]"
+            className="absolute top-1/2 h-7 w-7 -translate-y-1/2 rounded-full bg-accent"
           />
         </div>
-        <canvas ref={canvasRef} width={280} height={90} className="w-full rounded-lg bg-[#0d0d10]" />
+        <canvas ref={canvasRef} width={280} height={90} className="w-full rounded-lg bg-stage" />
         <div className="mt-2 flex items-center justify-between">
-          <span className="text-[10.5px] text-white/30">position over time — dashes = target</span>
+          <span className="text-[10.5px] text-muted">position over time — dashes = target</span>
           <ReplayButton onClick={replay} />
         </div>
       </div>

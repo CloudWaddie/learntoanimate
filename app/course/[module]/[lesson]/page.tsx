@@ -6,6 +6,8 @@ import { LessonChrome } from "@/components/LessonChrome";
 
 type Params = { module: string; lesson: string };
 
+export const dynamicParams = false;
+
 export function generateStaticParams(): Params[] {
   return modules.flatMap((m) =>
     m.lessons.map((l) => ({ module: m.slug, lesson: l.slug })),

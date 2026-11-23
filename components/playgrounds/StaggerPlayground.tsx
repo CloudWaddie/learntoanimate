@@ -27,7 +27,7 @@ export function StaggerPlayground() {
               className={`rounded-md border px-2 py-1 text-[11px] transition-colors ${
                 from === f
                   ? "border-accent/50 bg-accent-soft text-accent"
-                  : "border-line text-white/50 hover:border-white/25"
+                  : "border-line text-muted hover:border-line-strong"
               }`}
             >
               {f}
@@ -36,7 +36,7 @@ export function StaggerPlayground() {
         </div>
         <ReplayButton onClick={() => setRunId((r) => r + 1)} />
       </div>
-      <div className="flex h-28 flex-wrap content-center items-center justify-center gap-1.5 overflow-hidden rounded-xl bg-[#0d0d10] px-4">
+      <div className="flex h-28 flex-wrap content-center items-center justify-center gap-1.5 overflow-hidden rounded-xl bg-stage px-4">
         {items.map((i) => (
           <motion.div
             key={`${runId}-${i}`}
@@ -48,11 +48,11 @@ export function StaggerPlayground() {
               stiffness: 500,
               damping: 30,
             }}
-            className="h-6 w-6 rounded-md bg-gradient-to-br from-accent to-[#ffb38a]"
+            className="h-6 w-6 rounded-md bg-accent"
           />
         ))}
       </div>
-      <p className="mt-3 text-[11.5px] leading-relaxed text-white/35">
+      <p className="mt-3 text-[11.5px] leading-relaxed text-muted">
         Total perceived duration = stagger × items + single-item duration. Keep
         it under ~600ms or the last items feel left behind.
       </p>

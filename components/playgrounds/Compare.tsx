@@ -20,7 +20,7 @@ export function Compare({
     <div>
       <div className="grid gap-3 p-4 sm:grid-cols-2">
         <div>
-          <div className="mb-1.5 text-[11px] font-medium uppercase tracking-wider text-white/35">
+          <div className="mb-1.5 text-[11px] font-medium uppercase tracking-wider text-muted">
             {labelA}
           </div>
           <div key={`a-${key}`}>{a}</div>
@@ -33,10 +33,10 @@ export function Compare({
         </div>
       </div>
       <div className="flex items-center justify-between px-4 pb-3">
-        <span className="text-[11.5px] text-white/35">{hint}</span>
+        <span className="text-[11.5px] text-muted">{hint}</span>
         <button
           onClick={() => setKey((k) => k + 1)}
-          className="rounded-lg border border-line bg-surface-2 px-3 py-1.5 text-[12px] font-medium text-white/70 hover:border-white/25 hover:text-white"
+          className="rounded-lg border border-line bg-surface-2 px-3 py-1.5 text-[12px] font-medium text-body hover:border-line-strong hover:text-ink"
         >
           ↻ Replay both
         </button>

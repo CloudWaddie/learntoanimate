@@ -1,98 +1,53 @@
-"use client";
-
-import { Callout, CodeBlock, Demo, Exercise } from "@/components/lesson";
+import { CodeBlock, Demo, Exercise } from "@/components/lesson";
+import { PressPlayground } from "@/components/playgrounds/PressPlayground";
 
 export default function Lesson() {
   return (
     <>
-      <p>
-        The CSS <code>transition</code> is the most under-rated tool in
-        animation. Most of the motion a UI needs — hovers, toggles, expansions,
-        fades — is a two-state problem, and two states is exactly what a
-        transition does: interpolate between A and B when a property changes.
-      </p>
+      <p>A CSS transition interpolates between two values when a property changes. Start with a button: a small change in color and scale can make a press feel immediate.</p>
 
-      <h2>The anatomy</h2>
-      <CodeBlock title="transition">{`.button {
-  /* property | duration | easing | delay */
-  transition: transform 150ms cubic-bezier(0.32, 0.72, 0, 1);
-}
-
-.button:hover {
-  transform: translateY(-1px) scale(1.02);
-}
-
-.button:active {
-  transform: translateY(0) scale(0.98);
-  transition-duration: 50ms; /* instant feedback on press */
-}`}</CodeBlock>
-
-      <p>
-        Three details make this feel professional: the duration is short, the
-        easing is ease-out, and the <em>press</em> state gets its own faster
-        transition. Press-down should feel nearly instant — a slow sink reads
-        as lag, not weight.
-      </p>
-
-      <h2>Transition on the right element</h2>
-      <p>
-        Put <code>transition</code> on the base class, not{" "}
-        <code>:hover</code>. A transition declared inside the hover state only
-        applies while hovering — the return trip plays with whatever the base
-        state declares (or nothing, meaning it snaps back instantly). This is
-        the most common CSS animation bug in the wild.
-      </p>
-
-      <CodeBlock title="the asymmetric trick">{`.card {
-  /* slow, graceful enter */
-  transition: transform 250ms ease-out, box-shadow 250ms ease-out;
-}
-.card:not(:hover) {
-  /* separate, faster exit back to rest */
-  transition: transform 150ms ease-in, box-shadow 150ms ease-in;
-}`}</CodeBlock>
-
-      <Demo title="Transition checklist" caption="Every item below is a real-world line that makes transitions feel intentional rather than default.">
-        <div className="p-4 text-[13px] leading-relaxed text-white/60">
-          <ul className="space-y-2">
-            <li>✓ Duration in the 100–300ms band unless travel is large</li>
-            <li>✓ Ease-out for responds-to-user events; ease-in only for exits</li>
-            <li>✓ Transition lives on the base selector</li>
-            <li>✓ Only <code>transform</code> + <code>opacity</code> animated</li>
-            <li>✓ Active/press state faster than hover state</li>
-          </ul>
-        </div>
+      <Demo title="Button press feedback" caption="Hold the pointer down on each button, then release. Tab to one and try Space or Enter. Each activation updates the save count.">
+        <PressPlayground />
       </Demo>
 
-      <h2>What transitions can't do</h2>
-      <p>
-        Multi-step motion (A → B → C), loops, and choreography across siblings
-        all outgrow transitions — that's keyframes, next lesson. And anything
-        that must react to a moving target — a cursor, a drag — wants springs
-        or JS, not a fixed-duration curve.
-      </p>
+      <h2>Put the transition on the base state</h2>
+      <p>Define which properties can animate on the button itself so the transition applies on both press and release. Keep a visible focus outline and use the native button element for keyboard activation.</p>
 
-      <Callout>
-        If a transition feels "mechanical," the fix is usually not a keyframe
-        animation — it's a better curve or a shorter duration.
-      </Callout>
+      <CodeBlock title="save-button.html · open in a browser">{`<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<title>Save button</title>
+<style>
+  button {
+    padding: 0.65rem 1rem;
+    border: 1px solid #17223a;
+    border-radius: 4px;
+    background: #254da5;
+    color: white;
+    transition: transform 140ms ease-out,
+                background-color 140ms ease-out;
+  }
+  button:active { transform: scale(0.97); background: #193b87; }
+  button:focus-visible { outline: 2px solid #254da5; outline-offset: 3px; }
+  @media (prefers-reduced-motion: reduce) {
+    button { transition: none; }
+    button:active { transform: none; }
+  }
+</style>
+<button type="button">Save draft</button>
+<output role="status"></output>
+<script>
+  const button = document.querySelector("button");
+  const status = document.querySelector("output");
+  let saves = 0;
+  button.addEventListener("click", () => {
+    status.textContent = "Draft saves: " + ++saves;
+  });
+</script>
+</html>`}</CodeBlock>
 
-      <Exercise
-        solution={
-          <p>
-            <code>transition: opacity 150ms ease-out</code> on{" "}
-            <code>.card</code> for opacity, and on{" "}
-            <code>.card .actions</code> declare{" "}
-            <code>transition: opacity 150ms ease-out, transform 150ms ease-out</code>.
-            On hover: <code>.actions {`{ opacity: 1; transform: none }`}</code>.
-            Keep the actions' translate small (4–8px) — a big travel on a fade-
-            in reads as a slide, not a reveal.
-          </p>
-        }
-      >
-        Write the CSS for a card where action buttons fade in <em>and</em>{" "}
-        rise 6px on hover. Two elements animate: the card and the actions.
-        Which element gets the transition declaration, and what values?
+      <Exercise solution={<p>If you put <code>transition</code> on <code>:active</code>, the declaration goes away when you release the button, so the return snaps. Move it back to the base rule. The color change and save count should still work with reduced motion enabled.</p>}>
+        Run the example and move the transition declaration into <code>:active</code>. Press and release to find which direction snaps. Restore the base rule, then try three presses in quick succession and verify the count advances three times.
       </Exercise>
     </>
   );

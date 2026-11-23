@@ -17,42 +17,42 @@ export const modules: Module[] = [
   {
     slug: "foundations",
     number: 1,
-    title: "Foundations of Motion",
-    tagline: "Why things move, and how to make them feel right",
+    title: "Motion fundamentals",
+    tagline: "Compare timing curves and measure the cost of an animation.",
     lessons: [
       {
         slug: "why-motion",
-        title: "Why We Animate",
+        title: "What motion is for",
         description:
-          "What animation is actually for — feedback, continuity, and character.",
+          "Identify which state changes need a visual cue.",
         minutes: 6,
       },
       {
         slug: "duration",
-        title: "Duration & Timing",
+        title: "Choosing a duration",
         description:
-          "How long an animation should last, and why shorter is usually better.",
+          "Compare timings on the same interaction and choose a starting point.",
         minutes: 8,
       },
       {
         slug: "easing",
-        title: "The Art of Easing",
+        title: "Reading easing curves",
         description:
-          "Cubic béziers, standard curves, and how easing shapes personality.",
+          "Read a cubic bézier curve and predict how it changes a transition.",
         minutes: 12,
       },
       {
         slug: "springs",
-        title: "Spring Physics",
+        title: "Tuning springs",
         description:
-          "Stiffness, damping, and why springs feel alive where easings feel scripted.",
+          "Tune stiffness, damping, and mass against the same target.",
         minutes: 11,
       },
       {
         slug: "performance",
-        title: "Animating at 60fps",
+        title: "Measuring animation cost",
         description:
-          "Transform, opacity, the compositor, and how to never drop a frame.",
+          "Compare animating width and transform in a performance trace.",
         minutes: 9,
       },
     ],
@@ -60,33 +60,33 @@ export const modules: Module[] = [
   {
     slug: "css",
     number: 2,
-    title: "CSS in Practice",
-    tagline: "Transitions, keyframes, and the modern CSS toolkit",
+    title: "CSS animation",
+    tagline: "Build a press response, then explore sequences, origins, and scroll.",
     lessons: [
       {
         slug: "transitions",
-        title: "Transitions Done Right",
+        title: "CSS transitions",
         description:
-          "The humble transition — where most animations should start and end.",
+          "Build a keyboard-friendly button with immediate press feedback.",
         minutes: 7,
       },
       {
         slug: "keyframes",
-        title: "Keyframes & Sequences",
+        title: "Keyframes and sequences",
         description:
-          "Multi-step motion, fill modes, and when keyframes beat transitions.",
+          "Define a sequence with intermediate stops and a clear end state.",
         minutes: 8,
       },
       {
         slug: "transform-origin",
-        title: "Origin & The Details",
+        title: "Transform origin",
         description:
-          "transform-origin, scale-from-edge menus, and the details nobody teaches.",
+          "Anchor an expanding surface to its trigger.",
         minutes: 7,
       },
       {
         slug: "scroll-driven",
-        title: "Scroll-Driven Animation",
+        title: "Scroll-driven animation",
         description:
           "animation-timeline, view(), and scroll-linked motion without JavaScript.",
         minutes: 9,
@@ -97,41 +97,41 @@ export const modules: Module[] = [
     slug: "motion",
     number: 3,
     title: "Motion for React",
-    tagline: "Declarative animation with the Motion library",
+    tagline: "Animate React state, exits, and changes to list order.",
     lessons: [
       {
         slug: "motion-basics",
-        title: "Motion Basics",
+        title: "Animating React state",
         description:
-          "animate, initial, exit — the three props that do most of the work.",
+          "Map component state to animation targets.",
         minutes: 8,
       },
       {
         slug: "enter-exit",
-        title: "Enter & Exit",
+        title: "Enter and exit",
         description:
-          "AnimatePresence, unmounting gracefully, and why exits are the hard part.",
+          "Keep a departing element mounted long enough to animate its exit.",
         minutes: 10,
       },
       {
         slug: "gestures",
         title: "Gestures",
         description:
-          "Hover, tap, and drag — animations driven by the user's own hands.",
+          "Handle hover, press, and drag with appropriate input alternatives.",
         minutes: 9,
       },
       {
         slug: "layout",
-        title: "Layout & Shared Elements",
+        title: "Layout and shared elements",
         description:
-          "layout, layoutId, FLIP — animations that survive DOM changes.",
+          "Animate position changes with stable keys and trace a shared element.",
         minutes: 11,
       },
       {
         slug: "orchestration",
         title: "Orchestration",
         description:
-          "Variants, stagger, and choreographing many elements as one.",
+          "Use variants and stagger to order related animations.",
         minutes: 9,
       },
     ],
@@ -139,43 +139,43 @@ export const modules: Module[] = [
   {
     slug: "craft",
     number: 4,
-    title: "Craft & Taste",
-    tagline: "The difference between animation that works and animation that sings",
+    title: "Interaction design",
+    tagline: "Test rapid input and reduced motion, then build the final project.",
     lessons: [
       {
         slug: "interruptibility",
         title: "Interruptibility",
         description:
-          "Users don't wait. Design every animation to be interrupted mid-flight.",
+          "Change a transition’s target while it is in progress.",
         minutes: 8,
       },
       {
         slug: "taste",
-        title: "Taste & Judgment",
+        title: "Critiquing motion",
         description:
-          "Frequency, restraint, origin, overshoot — the taste layer of motion.",
+          "Compare repeated interactions and decide which effects to keep.",
         minutes: 9,
       },
       {
         slug: "particles",
-        title: "Particles & Delight",
+        title: "Canvas particles (optional)",
         description:
-          "Canvas bursts, springs-as-juice, and the flourishes that make people smile.",
+          "Build a short canvas effect for a one-time milestone.",
         minutes: 10,
       },
       {
         slug: "accessibility",
-        title: "Motion for Everyone",
+        title: "Reduced motion",
         description:
-          "prefers-reduced-motion, vestibular safety, and respectful defaults.",
+          "Design and verify a reduced-motion mode for the same interaction.",
         minutes: 7,
       },
       {
         slug: "capstone",
-        title: "Capstone: A Polished Menu",
+        title: "Final project: Issue desk",
         description:
-          "Bring it all together — build a dropdown menu worthy of a design award.",
-        minutes: 12,
+          "Build an animated issue tracker from a working React starter.",
+        minutes: 45,
       },
     ],
   },

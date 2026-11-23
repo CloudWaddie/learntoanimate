@@ -14,12 +14,12 @@ export function ScrollPlayground() {
 
   return (
     <div className="p-4">
-      <div className="mb-2 text-[11px] uppercase tracking-wider text-white/35">
+      <div className="mb-2 text-[11px] uppercase tracking-wider text-muted">
         scroll inside the frame — bar tracks progress, layers move at different rates
       </div>
       <div
         ref={ref}
-        className="relative h-64 overflow-y-auto rounded-xl bg-[#0d0d10]"
+        className="relative h-64 overflow-y-auto rounded-xl bg-stage"
       >
         <motion.div
           style={{ scaleX }}
@@ -41,17 +41,17 @@ export function ScrollPlayground() {
               className="mx-auto mb-8 w-3/4 rounded-xl border border-line bg-surface-2 p-5"
               style={{ marginTop: i === 0 ? 120 : 0 }}
             >
-              <div className="mb-2 h-2.5 w-24 rounded bg-white/15" />
-              <div className="mb-1.5 h-2 w-full rounded bg-white/8" />
-              <div className="h-2 w-2/3 rounded bg-white/8" />
+              <div className="mb-2 h-2.5 w-24 rounded bg-line" />
+              <div className="mb-1.5 h-2 w-full rounded bg-line" />
+              <div className="h-2 w-2/3 rounded bg-line" />
             </div>
           ))}
-          <div className="pb-8 text-center text-[12px] text-white/30">
+          <div className="pb-8 text-center text-[12px] text-muted">
             the end — scroll back up
           </div>
         </div>
       </div>
-      <p className="mt-3 text-[11.5px] leading-relaxed text-white/35">
+      <p className="mt-3 text-[11.5px] leading-relaxed text-muted">
         <code className="font-mono text-[10.5px]">useScroll</code> gives 0→1
         progress; <code className="font-mono text-[10.5px]">useTransform</code>{" "}
         maps it to any range; wrapping in{" "}
