@@ -1,4 +1,5 @@
 import { Sidebar } from "@/components/Sidebar";
+import { MobileNav } from "@/components/MobileNav";
 
 export default function CourseLayout({
   children,
@@ -6,7 +7,10 @@ export default function CourseLayout({
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <main className="flex-1 min-w-0">{children}</main>
+      <main className="flex-1 min-w-0">
+        <MobileNav />
+        {children}
+      </main>
     </div>
   );
 }

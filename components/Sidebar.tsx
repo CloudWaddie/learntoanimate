@@ -11,7 +11,7 @@ export function Sidebar() {
   const pct = mounted ? Math.round((completed.size / totalLessons) * 100) : 0;
 
   return (
-    <aside className="w-72 shrink-0 border-r border-line h-screen sticky top-0 overflow-y-auto flex flex-col bg-surface/50">
+    <aside className="hidden w-72 shrink-0 border-r border-line h-screen sticky top-0 overflow-y-auto lg:flex flex-col bg-surface/50">
       <div className="px-5 pt-6 pb-4">
         <Link href="/" className="group inline-flex items-center gap-2">
           <span className="inline-block h-2.5 w-2.5 rounded-full bg-accent shadow-[0_0_12px_rgba(255,122,69,0.8)]" />
